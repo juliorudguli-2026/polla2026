@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)file:///Users/julio/Downloads/polla_mundialista_2026_5.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polla Mundialista 2026 · Familia Santos</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --green:#1D9E75;--green-l:#E1F5EE;--green-d:#085041;
+  --gold:#EF9F27;--gold-l:#FAEEDA;--gold-d:#633806;
+  --silver:#B4B2A9;--silver-l:#D3D1C7;--silver-d:#444441;
+  --bronze:#D85A30;--bronze-l:#FAECE7;--bronze-d:#4A1B0C;
+  --blue:#378ADD;--blue-l:#E6F1FB;--blue-d:#0C447C;
+  --red:#E24B4A;
+  --bg:#F5F4F0;--card:#fff;--card2:#FAFAF8;
+  --t1:#1C1C1A;--t2:#5F5E5A;--t3:#9C9A94;
+  --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
+  --r:8px;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#141412;--card:#1E1E1C;--card2:#242422;
+  --t1:#F0EFE9;--t2:#B4B2A9;--t3:#6E6C67;
+  --bd:rgba(255,255,255,.09);--bd2:rgba(255,255,255,.18);
+  --green-l:#04342C;--blue-l:#042C53;--gold-l:#412402;
+}}
+
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;font-size:15px;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--green);color:#fff;padding:14px 16px 11px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;}
+.topbar h1{font-size:17px;font-weight:700;flex:1;}
+.topbar p{font-size:11px;opacity:.75;}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(--card);border-bottom:.5px solid var(--bd);position:sticky;top:50px;z-index:199;overflow-x:auto;}
+.tab{flex:1;padding:11px 6px;font-size:12px;font-weight:500;color:var(--t3);border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;min-width:65px;}
+.tab.on{color:var(--green);border-bottom-color:var(--green);}
+
+.panel{display:none;padding:14px;max-width:720px;margin:0 auto;}
+.panel.on{display:block;}
+
+/* ── LEADERBOARD ── */
+.lb{display:flex;flex-direction:column;gap:7px;}
+.lc{display:flex;align-items:center;gap:11px;background:var(--card);border-radius:12px;border:.5px solid var(--bd);padding:12px 14px;cursor:pointer;transition:border-color .15s;}
+.lc:hover{border-color:var(--green);}
+.lc.p1{border:2px solid var(--gold);}
+.lc.p2{border:1.5px solid var(--silver);}
+.lc.p3{border:1.5px solid var(--bronze);}
+.rn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--bg);color:var(--t3);flex-shrink:0;}
+.p1 .rn{background:var(--gold-l);color:var(--gold-d);}
+.p2 .rn{background:var(--silver-l);color:var(--silver-d);}
+.p3 .rn{background:var(--bronze-l);color:var(--bronze-d);}
+.li{flex:1;min-width:0;}
+.ln{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lsub{font-size:11px;color:var(--t3);margin-top:2px;}
+.pb{height:3px;background:var(--bg);border-radius:2px;margin-top:5px;}
+.pf{height:100%;background:var(--green);border-radius:2px;}
+.lpts{text-align:right;flex-shrink:0;}
+.lnum{font-size:24px;font-weight:800;line-height:1;}
+.llbl{font-size:10px;color:var(--t3);}
+
+/* ── EDITOR DE BRACKET ── */
+.editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap;}
+.editor-title{font-size:16px;font-weight:700;}
+.player-select-wrap{display:flex;align-items:center;gap:8px;}
+.player-select{padding:7px 12px;border-radius:var(--r);border:.5px solid var(--bd2);background:var(--card);color:var(--t1);font-size:13px;font-weight:500;}
+
+/* ── BRACKET DIAGRAM ── */
+.bracket-outer{overflow-x:auto;padding-bottom:12px;}
+.bracket{display:flex;gap:0;align-items:stretch;min-width:620px;}
+.phase{display:flex;flex-direction:column;flex-shrink:0;}
+.phase-header{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);padding:6px 8px 8px;text-align:center;}
+
+/* Each "match" in a phase */
+.match-group{display:flex;flex-direction:column;justify-content:center;flex:1;position:relative;}
+.match-group::after{content:'';position:absolute;right:0;top:25%;height:50%;border-right:.5px solid var(--bd2);}
+.match-group.no-line::after{display:none;}
+
+/* Slot = one team entry */
+.slot{margin:2px 4px;position:relative;}
+.slot-input{
+  width:100%;padding:5px 8px;
+  border-radius:6px;border:.5px solid var(--bd2);
+  background:var(--card2);color:var(--t1);
+  font-size:11px;font-weight:500;
+  cursor:pointer;
+  transition:border-color .15s,background .15s;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-align:left;
+}
+.slot-input:hover{border-color:var(--green);background:var(--green-l);}
+.slot-input.filled{background:var(--green-l);border-color:var(--green);color:var(--green-d);}
+.slot-input.exact{background:var(--green-l);border-color:var(--green);color:var(--green-d);}
+.slot-input.partial{background:var(--gold-l);border-color:var(--gold);color:var(--gold-d);}
+.slot-input.wrong{background:var(--bg);border-color:var(--bd);color:var(--t3);}
+.slot-input.real-exact{background:var(--green-l);border-color:var(--green);color:var(--green-d);font-weight:700;}
+
+/* connector lines between phases */
+.connector{width:16px;display:flex;flex-direction:column;flex-shrink:0;}
+.conn-pair{display:flex;flex-direction:column;justify-content:center;flex:1;position:relative;}
+.conn-pair::before{content:'';position:absolute;left:0;top:25%;height:50%;border-left:.5px solid var(--bd2);}
+.conn-pair::after{content:'';position:absolute;left:0;top:50%;width:100%;border-top:.5px solid var(--bd2);}
+
+/* Final podium */
+.podium{display:flex;flex-direction:column;justify-content:center;gap:6px;padding:0 8px;min-width:110px;}
+.podium-slot{padding:7px 10px;border-radius:8px;border:.5px solid var(--bd);background:var(--card);text-align:center;}
+.podium-slot.gold{border:2px solid var(--gold);background:var(--gold-l);}
+.podium-slot.silver{border:1.5px solid var(--silver);background:var(--silver-l);}
+.podium-slot.bronze{border:1.5px solid var(--bronze);background:var(--bronze-l);}
+.podium-slot.fourth{border:.5px solid var(--green);}
+.podium-label{font-size:10px;font-weight:600;color:var(--t3);display:block;margin-bottom:3px;}
+.gold .podium-label{color:var(--gold-d);}
+.silver .podium-label{color:var(--silver-d);}
+.bronze .podium-label{color:var(--bronze-d);}
+.podium-team{font-size:12px;font-weight:700;color:var(--t1);min-height:18px;}
+.gold .podium-team{color:var(--gold-d);}
+.silver .podium-team{color:var(--silver-d);}
+.bronze .podium-team{color:var(--bronze-d);}
+
+/* ── DROPDOWN PICKER ── */
+.picker-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:flex-end;justify-content:center;}
+.picker-overlay.open{display:flex;}
+.picker-box{background:var(--card);width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:16px;max-height:70vh;display:flex;flex-direction:column;}
+.picker-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.picker-title{font-size:15px;font-weight:700;}
+.picker-close{border:none;background:none;font-size:20px;cursor:pointer;color:var(--t2);padding:0 4px;}
+.picker-search{width:100%;padding:9px 12px;border-radius:8px;border:.5px solid var(--bd2);background:var(--card2);color:var(--t1);font-size:14px;margin-bottom:10px;}
+.picker-list{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:4px;}
+.picker-opt{padding:10px 14px;border-radius:8px;border:none;background:none;text-align:left;font-size:14px;cursor:pointer;color:var(--t1);width:100%;}
+.picker-opt:hover{background:var(--green-l);color:var(--green-d);}
+.picker-opt.clear{color:var(--t3);font-style:italic;}
+.picker-opt.clear:hover{background:var(--bg);}
+
+/* ── SAVE BAR ── */
+.save-bar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:var(--r);padding:10px 14px;margin-top:14px;font-size:12px;color:var(--t3);border:.5px solid var(--bd);}
+.btn-green{padding:8px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-green:hover{background:var(--green-d);}
+.btn-ghost{padding:7px 14px;background:transparent;color:var(--green);border:.5px solid var(--green);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;}
+
+/* ── DETAIL / SCORING ── */
+.notice{background:var(--blue-l);border:.5px solid rgba(55,138,221,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--blue-d);margin-bottom:14px;line-height:1.5;}
+.sec{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);padding:10px 0 6px;border-bottom:.5px solid var(--bd);margin-bottom:8px;}
+.row{display:flex;align-items:center;padding:7px 0;border-bottom:.5px solid var(--bd);font-size:13px;gap:8px;}
+.row:last-child{border-bottom:none;}
+.row .team{flex:1;color:var(--blue);font-weight:500;}
+.row .rteam{flex:1;color:var(--t2);font-size:12px;}
+.badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;flex-shrink:0;}
+.bx{background:var(--green-l);color:var(--green-d);}
+.bp{background:var(--gold-l);color:var(--gold-d);}
+.bz{background:var(--bg);color:var(--t3);}
+.bn{background:var(--blue-l);color:var(--blue-d);}
+
+/* ── RULES ── */
+.rc{background:var(--card);border:.5px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;}
+.rh{font-size:15px;font-weight:700;margin-bottom:12px;}
+.rr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--bd);font-size:13px;}
+.rr:last-child{border-bottom:none;}
+.rx{color:var(--green);font-weight:700;} .rp{color:var(--gold-d);font-weight:700;} .r0{color:var(--t3);font-weight:700;}
+
+/* ── SCORING LEGEND ── */
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+
+/* ── STATUS DOT ── */
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--bd2);border-top-color:var(--green);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:4px;}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>🏆 Polla Mundialista 2026</h1>
+    <p>Familia Santos · El que más sabe de fútbol, soy yo</p>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="showTab(&#39;leaderboard&#39;,this)">🏅 Tabla</button>
+  <button class="tab" onclick="showTab(&#39;editor&#39;,this)">✏️ Editar bracket</button>
+  <button class="tab" onclick="showTab(&#39;real&#39;,this)">⚽ Resultados reales</button>
+  <button class="tab" onclick="showTab(&#39;rules&#39;,this)">📋 Reglas</button>
+</div>
+
+<!-- ═══════════ LEADERBOARD ═══════════ -->
+<div class="panel on" id="panel-leaderboard">
+  <div class="lb" id="lb-list"><div class="lc p1" onclick="goEditPlayer(&#39;Julio Santos Savala&#39;)">
+      <div class="rn">🥇</div>
+      <div class="li">
+        <div class="ln">Julio Santos Savala</div>
+        <div class="lsub">🏆 PORTUGAL · 🥈 ESPAÑA</div>
+        <div class="pb"><div class="pf" style="width:14%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">72</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc p2" onclick="goEditPlayer(&#39;Franklin Navia Santos&#39;)">
+      <div class="rn">🥈</div>
+      <div class="li">
+        <div class="ln">Franklin Navia Santos</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc p3" onclick="goEditPlayer(&#39;Rafael Santos Albán&#39;)">
+      <div class="rn">🥉</div>
+      <div class="li">
+        <div class="ln">Rafael Santos Albán</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Brenda Navia Santos&#39;)">
+      <div class="rn">4</div>
+      <div class="li">
+        <div class="ln">Brenda Navia Santos</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Tyronne Mendoza Briones&#39;)">
+      <div class="rn">5</div>
+      <div class="li">
+        <div class="ln">Tyronne Mendoza Briones</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Maximiliano Peña Santos&#39;)">
+      <div class="rn">6</div>
+      <div class="li">
+        <div class="ln">Maximiliano Peña Santos</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Mario Navia Santos&#39;)">
+      <div class="rn">7</div>
+      <div class="li">
+        <div class="ln">Mario Navia Santos</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Elias Urdanigo Soza&#39;)">
+      <div class="rn">8</div>
+      <div class="li">
+        <div class="ln">Elias Urdanigo Soza</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Gina Santos Ibarra&#39;)">
+      <div class="rn">9</div>
+      <div class="li">
+        <div class="ln">Gina Santos Ibarra</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Rommel Santos Andrade&#39;)">
+      <div class="rn">10</div>
+      <div class="li">
+        <div class="ln">Rommel Santos Andrade</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Pablo Santos Andrade&#39;)">
+      <div class="rn">11</div>
+      <div class="li">
+        <div class="ln">Pablo Santos Andrade</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Tony Santos Andrade&#39;)">
+      <div class="rn">12</div>
+      <div class="li">
+        <div class="ln">Tony Santos Andrade</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Eduardo Borrero Serrano&#39;)">
+      <div class="rn">13</div>
+      <div class="li">
+        <div class="ln">Eduardo Borrero Serrano</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div><div class="lc " onclick="goEditPlayer(&#39;Gastón Santos Andrade&#39;)">
+      <div class="rn">14</div>
+      <div class="li">
+        <div class="ln">Gastón Santos Andrade</div>
+        <div class="lsub">🏆 ? · 🥈 ?</div>
+        <div class="pb"><div class="pf" style="width:0%"></div></div>
+      </div>
+      <div class="lpts">
+        <div class="lnum">0</div>
+        <div class="llbl">pts</div>
+      </div>
+    </div></div>
+  <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:10px">Toca un nombre para ver su bracket completo</p>
+
+  <!-- EXPORTAR / IMPORTAR -->
+  <div style="display:flex;gap:8px;margin-top:16px;">
+    <button onclick="exportarDatos()" style="flex:1;padding:10px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">
+      ⬇️ Exportar mis datos
+    </button>
+    <button onclick="document.getElementById(&#39;import-modal&#39;).style.display=&#39;flex&#39;" style="flex:1;padding:10px;background:var(--card);color:var(--green);border:1.5px solid var(--green);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">
+      ⬆️ Importar datos
+    </button>
+  </div>
+  <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px;">Exporta para guardar una copia · Importa para cargar en otro dispositivo</p>
+</div>
+
+<!-- MODAL IMPORTAR -->
+<div id="import-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card);border-radius:16px;padding:24px;max-width:440px;width:100%;">
+    <h2 style="font-size:17px;font-weight:700;margin-bottom:8px;">⬆️ Importar datos</h2>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.5;">
+      Pega aquí el contenido del archivo <strong>.json</strong> que exportaste, o arrastra el archivo directamente.
+    </p>
+    <textarea id="import-text" placeholder="Pega aquí el JSON exportado..." style="width:100%;height:140px;padding:10px;border-radius:8px;border:.5px solid var(--bd2);background:var(--bg);color:var(--t1);font-size:12px;font-family:monospace;resize:vertical;margin-bottom:10px;"></textarea>
+    <input type="file" id="import-file" accept=".json" onchange="importarArchivo(this)" style="display:none;">
+    <button onclick="document.getElementById(&#39;import-file&#39;).click()" style="width:100%;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd2);border-radius:8px;font-size:13px;cursor:pointer;margin-bottom:10px;">
+      📂 O elige un archivo .json
+    </button>
+    <div id="import-error" style="font-size:12px;color:var(--red);display:none;margin-bottom:8px;"></div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="document.getElementById(&#39;import-modal&#39;).style.display=&#39;none&#39;" style="flex:1;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd);border-radius:8px;font-size:13px;cursor:pointer;">Cancelar</button>
+      <button onclick="importarDatos()" style="flex:1;padding:9px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Cargar datos</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ EDITOR DE BRACKET ═══════════ -->
+<div class="panel" id="panel-editor">
+  <div class="editor-header">
+    <span class="editor-title">Bracket de:</span>
+    <div class="player-select-wrap">
+      <select class="player-select" id="player-select" onchange="loadPlayer(this.value)">
+        <option value="">— elige participante —</option>
+      <option value="Franklin Navia Santos">Franklin Navia Santos</option><option value="Rafael Santos Albán">Rafael Santos Albán</option><option value="Brenda Navia Santos">Brenda Navia Santos</option><option value="Tyronne Mendoza Briones">Tyronne Mendoza Briones</option><option value="Maximiliano Peña Santos">Maximiliano Peña Santos</option><option value="Mario Navia Santos">Mario Navia Santos</option><option value="Julio Santos Savala">Julio Santos Savala</option><option value="Elias Urdanigo Soza">Elias Urdanigo Soza</option><option value="Gina Santos Ibarra">Gina Santos Ibarra</option><option value="Rommel Santos Andrade">Rommel Santos Andrade</option><option value="Pablo Santos Andrade">Pablo Santos Andrade</option><option value="Tony Santos Andrade">Tony Santos Andrade</option><option value="Eduardo Borrero Serrano">Eduardo Borrero Serrano</option><option value="Gastón Santos Andrade">Gastón Santos Andrade</option></select>
+    </div>
+  </div>
+
+  <div id="editor-notice" class="notice" style="display:none"></div>
+
+  <!-- LEYENDA -->
+  <div class="legend" id="score-legend" style="display:none">
+    <div class="leg"><div class="leg-dot" style="background:var(--green-l);border:1px solid var(--green)"></div>Exacto</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--gold-l);border:1px solid var(--gold)"></div>Clasificó (otro slot)</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--bg);border:1px solid var(--bd2)"></div>Eliminado / pendiente</div>
+  </div>
+
+  <!-- BRACKET DIAGRAM -->
+  <div class="bracket-outer" id="bracket-outer" style="display:none">
+    <div class="bracket" id="bracket-diagram"></div>
+  </div>
+
+  <div class="save-bar" id="editor-savebar" style="display:none">
+    <span id="save-status">Sin guardar</span>
+    <div style="display:flex;gap:8px">
+      <button class="btn-ghost" onclick="clearPlayer()">Limpiar</button>
+      <button class="btn-green" onclick="savePlayer()">Guardar bracket</button>
+    </div>
+  </div>
+
+  <div id="editor-empty" style="text-align:center;padding:50px 20px;color:var(--t3)">
+    <div style="font-size:40px;margin-bottom:12px">✏️</div>
+    <div style="font-size:15px;font-weight:600;margin-bottom:6px">Selecciona un participante</div>
+    <div style="font-size:13px">Elige a quién quieres editar arriba</div>
+  </div>
+</div>
+
+<!-- ═══════════ RESULTADOS REALES ═══════════ -->
+<div class="panel" id="panel-real">
+  <div class="notice">Aquí ingresas los resultados <strong>reales</strong> del Mundial. Una vez guardados, los puntos de todos los participantes se calculan automáticamente.</div>
+
+  <div class="sec">32 clasificados a 16avos (slots 1–16)</div>
+  <div id="real-g32a" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 1</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">ALEMANIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 2</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">PARAGUAY</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 3</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">FRANCIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 4</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">SUECIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 5</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">SUDAFRICA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 6</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">CANADA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 7</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">P.BAJOS</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 8</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">MARRUECOS</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 9</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">PORTUGAL</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 10</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">CROACIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 11</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">ESPAÑA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 12</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">AUSTRIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 13</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">EE.UU.</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 14</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">BOSNIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 15</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">BELGICA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 16</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">SENEGAL</span></div></div>
+  <div class="sec">32 clasificados a 16avos (slots 17–32)</div>
+  <div id="real-g32b" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 17</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">BRASIL</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 18</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">JAPON</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 19</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">C.MARFIL</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 20</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">NORUEGA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 21</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">MEXICO</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 22</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">ECUADOR</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 23</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">INGLATERRA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 24</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">R.CONGO</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 25</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">ARGENTINA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 26</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">CABO VERDE</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 27</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">AUSTRALIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 28</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">EGIPTO</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 29</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">SUIZA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 30</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">ARGELIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 31</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">COLOMBIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">Slot 32</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">GHANA</span></div></div>
+  <div class="sec">16 ganadores de 16avos</div>
+  <div id="real-r16" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 1</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">PARAGUAY</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 2</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">FRANCIA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 3</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">CANADA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 4</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">MARRUECOS</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 5</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">PORTUGAL</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 6</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">ESPAÑA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 7</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">EE.UU.</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 8</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">BELGICA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 9</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">BRASIL</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 10</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">NORUEGA</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 11</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">MEXICO</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 12</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">INGLATERRA</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 13</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 14</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--green-l); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 15</span><span style="font-size:13px;font-weight:600;color:var(--green-d);flex:1">SUIZA</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">16avo 16</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div></div>
+  <div class="sec">8 cuartofinalistas</div>
+  <div id="real-qf" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 1</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 2</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 3</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 4</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 5</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 6</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 7</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">CF 8</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div></div>
+  <div class="sec">4 semifinalistas</div>
+  <div id="real-sf" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">SF 1</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">SF 2</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">SF 3</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;"><span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">SF 4</span><span style="font-size:13px;font-weight:600;color:var(--t3);flex:1">— pendiente —</span></div></div>
+  <div class="sec">Final</div>
+  <div id="real-final" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 10px; padding: 12px; cursor: pointer; text-align: center;"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">🥇 Campeón</div><div style="font-size:15px;font-weight:700;color:var(--t3)">—</div></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 10px; padding: 12px; cursor: pointer; text-align: center;"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">🥈 Vicecampeón</div><div style="font-size:15px;font-weight:700;color:var(--t3)">—</div></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 10px; padding: 12px; cursor: pointer; text-align: center;"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">🥉 3° lugar</div><div style="font-size:15px;font-weight:700;color:var(--t3)">—</div></div><div style="background: var(--card); border: .5px solid var(--bd); border-radius: 10px; padding: 12px; cursor: pointer; text-align: center;"><div style="font-size:11px;color:var(--t3);margin-bottom:4px">4° lugar</div><div style="font-size:15px;font-weight:700;color:var(--t3)">—</div></div></div>
+
+  <div class="save-bar">
+    <span id="real-status">Sin guardar</span>
+    <button class="btn-green" onclick="saveReal()">Guardar resultados</button>
+  </div>
+</div>
+
+<!-- ═══════════ REGLAS ═══════════ -->
+<div class="panel" id="panel-rules">
+  <div class="rc">
+    <div class="rh">Sistema de puntuación</div>
+    <div class="rr"><span><b>Fase 1 — 32 clasificados a 16avos</b> (2 pts / slot)</span></div>
+    <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+2 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Clasificó pero en otro slot</span><span class="rp">+1 pt</span></div>
+    <div class="rr" style="padding-left:12px"><span>No clasificó</span><span class="r0">0 pts</span></div>
+    <div class="rr"><span><b>Fase 2 — 16 ganadores de 16avos</b></span></div>
+    <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+4 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+2 pts</span></div>
+    <div class="rr"><span><b>Fase 3 — 8 cuartofinalistas</b></span></div>
+    <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+8 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+4 pts</span></div>
+    <div class="rr"><span><b>Fase 4 — 4 semifinalistas</b></span></div>
+    <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+16 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+8 pts</span></div>
+    <div class="rr"><span><b>Fase 5 — Final (Campeón, Vice, 3°, 4°)</b></span></div>
+    <div class="rr" style="padding-left:12px"><span>Posición exacta</span><span class="rx">+64 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Entre top 4 pero otra posición</span><span class="rp">+32 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Eliminado</span><span class="r0">0 pts</span></div>
+  </div>
+  <div class="rc">
+    <div class="rh">Puntos máximos posibles: 512</div>
+    <div class="rr"><span>Fase 1: 32 × 2</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 2: 16 × 4</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 3: 8 × 8</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 4: 4 × 16</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 5: 4 × 64</span><span class="rx">256 pts</span></div>
+    <div class="rr"><b>Total</b><span class="rx" style="font-size:16px">512 pts</span></div>
+  </div>
+</div>
+
+<!-- ═══════════ TEAM PICKER ═══════════ -->
+<div class="picker-overlay" id="picker-overlay" onclick="closePicker(event)">
+  <div class="picker-box" onclick="event.stopPropagation()">
+    <div class="picker-header">
+      <span class="picker-title" id="picker-label">Seleccionar equipo</span>
+      <button class="picker-close" onclick="closePicker()">✕</button>
+    </div>
+    <input class="picker-search" type="text" id="picker-search" placeholder="Buscar equipo..." oninput="filterPicker(this.value)">
+    <div class="picker-list" id="picker-list"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  DATOS BASE
+// ═══════════════════════════════════════════════════════
+
+const PLAYERS = [
+  "Franklin Navia Santos","Rafael Santos Albán","Brenda Navia Santos",
+  "Tyronne Mendoza Briones","Maximiliano Peña Santos","Mario Navia Santos",
+  "Julio Santos Savala","Elias Urdanigo Soza","Gina Santos Ibarra",
+  "Rommel Santos Andrade","Pablo Santos Andrade","Tony Santos Andrade",
+  "Eduardo Borrero Serrano","Gastón Santos Andrade"
+];
+
+const ALL_TEAMS = [
+  "ALEMANIA","ARGELIA","ARGENTINA","ARABIA S.","AUSTRALIA","AUSTRIA","BELGICA",
+  "BOSNIA","BRASIL","C.MARFIL","CABO VERDE","CANADA","COREA DEL SUR","COLOMBIA",
+  "CROACIA","ECUADOR","EGIPTO","EE.UU.","ESCOCIA","ESPAÑA","GHANA","INGLATERRA",
+  "IRAK","IRAN","JAPON","JORDANIA","MARRUECOS","MEXICO","N.ZELANDA","NORUEGA",
+  "P.BAJOS","PARAGUAY","PORTUGAL","QATAR","R.CHECA","R.CONGO","SENEGAL",
+  "SUDAFRICA","SUECIA","SUIZA","TURQUIA","URUGUAY","FRANCIA","HAITI",
+  "BOSNIA","KUWAIT","INDONESIA","UZBEKISTAN","PERU","CHILE","VENEZUELA",
+  "COSTA RICA","HONDURAS","PANAMA","JAMAICA"
+].sort();
+
+// ═══════════════════════════════════════════════════════
+//  ESTADO (guardado en localStorage)
+// ═══════════════════════════════════════════════════════
+
+function key(player) { return 'bracket_' + player.replace(/\s/g,'_'); }
+function realKey()   { return 'real_results'; }
+
+function loadData(player) {
+  try { return JSON.parse(localStorage.getItem(key(player))) || emptyBracket(); }
+  catch(e) { return emptyBracket(); }
+}
+function saveData(player, data) {
+  localStorage.setItem(key(player), JSON.stringify(data));
+}
+function loadReal() {
+  try { return JSON.parse(localStorage.getItem(realKey())) || emptyReal(); }
+  catch(e) { return emptyReal(); }
+}
+function saveReal2(data) { localStorage.setItem(realKey(), JSON.stringify(data)); }
+
+function emptyBracket() {
+  return {
+    g32:  Array(32).fill(''),   // 32 clasificados a 16avos
+    r16:  Array(16).fill(''),   // 16 ganadores de 16avos
+    qf:   Array(8).fill(''),    // 8 cuartofinalistas
+    sf:   Array(4).fill(''),    // 4 semifinalistas
+    final:{ c1:'', c2:'', c3:'', c4:'' }
+  };
+}
+function emptyReal() {
+  return {
+    g32:  Array(32).fill(''),
+    r16:  Array(16).fill(''),
+    qf:   Array(8).fill(''),
+    sf:   Array(4).fill(''),
+    final:{ c1:'', c2:'', c3:'', c4:'' }
+  };
+}
+
+let currentPlayer = null;
+let currentData   = emptyBracket();
+let realData      = loadReal();
+
+// ═══════════════════════════════════════════════════════
+//  PICKER
+// ═══════════════════════════════════════════════════════
+let pickerCallback = null;
+let pickerCurrent  = '';
+
+function openPicker(label, currentVal, callback) {
+  pickerCallback = callback;
+  pickerCurrent  = currentVal;
+  document.getElementById('picker-label').textContent = label;
+  document.getElementById('picker-search').value = '';
+  filterPicker('');
+  document.getElementById('picker-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('picker-search').focus(), 100);
+}
+
+function filterPicker(q) {
+  const list = document.getElementById('picker-list');
+  const terms = q.toLowerCase().split('');
+  const filtered = ALL_TEAMS.filter(t => !q || terms.every(c => t.toLowerCase().includes(c)) || t.toLowerCase().includes(q.toLowerCase()));
+  list.innerHTML = `<button class="picker-opt clear" onclick="pickTeam('')">— Limpiar —</button>` +
+    filtered.map(t => `<button class="picker-opt${t===pickerCurrent?' on':''}" onclick="pickTeam('${t}')">${t}</button>`).join('');
+}
+
+function pickTeam(team) {
+  if (pickerCallback) pickerCallback(team);
+  closePicker();
+}
+
+function closePicker(e) {
+  if (e && e.target !== document.getElementById('picker-overlay')) return;
+  document.getElementById('picker-overlay').classList.remove('open');
+  pickerCallback = null;
+}
+
+// ═══════════════════════════════════════════════════════
+//  BRACKET DIAGRAM RENDERER
+// ═══════════════════════════════════════════════════════
+
+function renderBracket(player, data, real, showScoring) {
+  const diag = document.getElementById('bracket-diagram');
+  diag.innerHTML = '';
+
+  const phases = [
+    { key:'g32',  count:32, label:'32 clasificados\na 16avos', pts:[2,1] },
+    { key:'r16',  count:16, label:'16 ganadores\nde 16avos',   pts:[4,2] },
+    { key:'qf',   count:8,  label:'Cuartos\nde final',         pts:[8,4] },
+    { key:'sf',   count:4,  label:'Semi\nfinales',             pts:[16,8] },
+  ];
+
+  const realSets = {
+    g32: new Set((real.g32||[]).filter(Boolean)),
+    r16: new Set((real.r16||[]).filter(Boolean)),
+    qf:  new Set((real.qf||[]).filter(Boolean)),
+    sf:  new Set((real.sf||[]).filter(Boolean)),
+  };
+
+  function slotClass(phKey, idx, val) {
+    if (!showScoring || !val) return val ? 'filled' : '';
+    const realArr = real[phKey] || [];
+    const realVal = realArr[idx] || '';
+    const realSet = realSets[phKey];
+    if (!realVal && !realSet.size) return 'filled';
+    if (realVal && val === realVal) return 'exact';
+    if (realSet.has(val)) return 'partial';
+    if (realVal) return 'wrong';
+    return 'filled';
+  }
+
+  function makePhasCol(phaseInfo, groupSize) {
+    const ph = document.createElement('div');
+    ph.className = 'phase';
+    ph.style.width = phaseInfo.key === 'g32' ? '100px' : phaseInfo.key === 'r16' ? '96px' : phaseInfo.key === 'qf' ? '92px' : '88px';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'phase-header';
+    hdr.innerHTML = phaseInfo.label.replace('\n','<br>') + `<br><span style="color:var(--green);font-size:9px">×${phaseInfo.pts[0]} / ×${phaseInfo.pts[1]}</span>`;
+    ph.appendChild(hdr);
+
+    const body = document.createElement('div');
+    body.style.cssText = 'flex:1;display:flex;flex-direction:column;';
+
+    const numGroups = phaseInfo.count / groupSize;
+    for (let g = 0; g < numGroups; g++) {
+      const grp = document.createElement('div');
+      grp.className = 'match-group' + (phaseInfo.key === 'sf' ? ' no-line' : '');
+      grp.style.flex = '1';
+
+      for (let s = 0; s < groupSize; s++) {
+        const idx = g * groupSize + s;
+        const val = (data[phaseInfo.key] || [])[idx] || '';
+        const cls = slotClass(phaseInfo.key, idx, val);
+
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+
+        const btn = document.createElement('button');
+        btn.className = 'slot-input' + (cls ? ' ' + cls : '');
+        btn.textContent = val || '·';
+        btn.title = `Slot ${idx+1}`;
+        btn.onclick = () => {
+          openPicker(`Slot ${idx+1} — ${phaseInfo.label.replace('\n',' ')}`, val, (team) => {
+            if (!currentData[phaseInfo.key]) currentData[phaseInfo.key] = Array(phaseInfo.count).fill('');
+            currentData[phaseInfo.key][idx] = team;
+            document.getElementById('save-status').textContent = '● Cambios sin guardar';
+            renderBracket(currentPlayer, currentData, realData, !!real.g32.filter(Boolean).length);
+          });
+        };
+        slot.appendChild(btn);
+        grp.appendChild(slot);
+      }
+      body.appendChild(grp);
+    }
+    ph.appendChild(body);
+    return ph;
+  }
+
+  function makeConnector(count, groupSize) {
+    const conn = document.createElement('div');
+    conn.className = 'connector';
+    const numGroups = count / groupSize;
+    for (let g = 0; g < numGroups; g++) {
+      const pair = document.createElement('div');
+      pair.className = 'conn-pair';
+      pair.style.flex = '1';
+      conn.appendChild(pair);
+    }
+    return conn;
+  }
+
+  // g32 (groups of 2)
+  diag.appendChild(makePhasCol(phases[0], 2));
+  diag.appendChild(makeConnector(16, 1));
+  // r16 (groups of 2)
+  diag.appendChild(makePhasCol(phases[1], 2));
+  diag.appendChild(makeConnector(8, 1));
+  // qf (groups of 2)
+  diag.appendChild(makePhasCol(phases[2], 2));
+  diag.appendChild(makeConnector(4, 1));
+  // sf (groups of 2)
+  diag.appendChild(makePhasCol(phases[3], 2));
+
+  // Final podium
+  const pod = document.createElement('div');
+  pod.className = 'podium';
+
+  const podItems = [
+    { key:'c1', label:'🥇 Campeón', cls:'gold', ptsExact:64, ptsPartial:32, phKey:'final' },
+    { key:'c2', label:'🥈 Vicecampeón', cls:'silver', ptsExact:64, ptsPartial:32, phKey:'final' },
+    { key:'c3', label:'🥉 Tercer lugar', cls:'bronze', ptsExact:64, ptsPartial:32, phKey:'final' },
+    { key:'c4', label:'4° lugar', cls:'fourth', ptsExact:64, ptsPartial:32, phKey:'final' },
+  ];
+
+  // small connector before podium
+  const podConn = document.createElement('div');
+  podConn.style.cssText = 'width:12px;border-top:.5px solid var(--bd2);align-self:center;margin-top:40px;';
+  // Actually use a full connector column for semis→final
+  const finalConn = document.createElement('div');
+  finalConn.className = 'connector';
+  ['',''].forEach(() => {
+    const p = document.createElement('div');
+    p.className = 'conn-pair';
+    p.style.flex = '1';
+    finalConn.appendChild(p);
+  });
+  diag.appendChild(finalConn);
+
+  const top4real = new Set(['c1','c2','c3','c4'].map(k => real.final[k]).filter(Boolean));
+
+  podItems.forEach(pi => {
+    const val = data.final[pi.key] || '';
+    const realVal = real.final[pi.key] || '';
+    let podCls = '';
+    if (showScoring && val && top4real.size) {
+      if (realVal && val === realVal) podCls = ' exact';
+      else if (top4real.has(val)) podCls = ' partial';
+      else if (realVal) podCls = ' wrong';
+    }
+
+    const pslot = document.createElement('div');
+    pslot.className = 'podium-slot ' + pi.cls + podCls;
+    pslot.innerHTML = `<span class="podium-label">${pi.label}</span><div class="podium-team">${val || '—'}</div>`;
+    pslot.style.cursor = 'pointer';
+    pslot.onclick = () => {
+      openPicker(pi.label, val, (team) => {
+        currentData.final[pi.key] = team;
+        document.getElementById('save-status').textContent = '● Cambios sin guardar';
+        renderBracket(currentPlayer, currentData, realData, !!real.g32.filter(Boolean).length);
+      });
+    };
+    pod.appendChild(pslot);
+  });
+
+  diag.appendChild(pod);
+}
+
+// ═══════════════════════════════════════════════════════
+//  PLAYER EDITOR
+// ═══════════════════════════════════════════════════════
+
+function loadPlayer(name) {
+  if (!name) {
+    document.getElementById('bracket-outer').style.display = 'none';
+    document.getElementById('editor-savebar').style.display = 'none';
+    document.getElementById('editor-empty').style.display = 'block';
+    document.getElementById('editor-notice').style.display = 'none';
+    document.getElementById('score-legend').style.display = 'none';
+    currentPlayer = null;
+    return;
+  }
+  currentPlayer = name;
+  currentData   = loadData(name);
+  const hasReal = realData.g32.some(Boolean);
+
+  document.getElementById('editor-empty').style.display    = 'none';
+  document.getElementById('bracket-outer').style.display   = 'block';
+  document.getElementById('editor-savebar').style.display  = 'flex';
+  document.getElementById('score-legend').style.display    = hasReal ? 'flex' : 'none';
+  document.getElementById('save-status').textContent       = 'Guardado';
+
+  const noticeEl = document.getElementById('editor-notice');
+  if (hasReal) {
+    noticeEl.style.display = 'block';
+    noticeEl.textContent   = '✓ Mostrando puntos en tiempo real según los resultados cargados.';
+  } else {
+    noticeEl.style.display = 'block';
+    noticeEl.textContent   = 'Completa el bracket de este participante. Los puntos se calcularán cuando cargues los resultados reales en la pestaña ⚽.';
+  }
+
+  renderBracket(name, currentData, realData, hasReal);
+}
+
+function savePlayer() {
+  if (!currentPlayer) return;
+  saveData(currentPlayer, currentData);
+  document.getElementById('save-status').textContent = '✓ Guardado · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  renderLB();
+}
+
+function clearPlayer() {
+  if (!currentPlayer) return;
+  if (!confirm('¿Limpiar todo el bracket de ' + currentPlayer + '?')) return;
+  currentData = emptyBracket();
+  saveData(currentPlayer, currentData);
+  renderBracket(currentPlayer, currentData, realData, false);
+  document.getElementById('save-status').textContent = 'Limpiado';
+  renderLB();
+}
+
+// ═══════════════════════════════════════════════════════
+//  RESULTADOS REALES
+// ═══════════════════════════════════════════════════════
+
+function renderRealInputs() {
+  const phases = [
+    { id:'real-g32a', key:'g32', start:0,  count:16, label:'Slot' },
+    { id:'real-g32b', key:'g32', start:16, count:16, label:'Slot' },
+    { id:'real-r16',  key:'r16', start:0,  count:16, label:'16avo' },
+    { id:'real-qf',   key:'qf',  start:0,  count:8,  label:'CF' },
+    { id:'real-sf',   key:'sf',  start:0,  count:4,  label:'SF' },
+  ];
+
+  phases.forEach(ph => {
+    const el = document.getElementById(ph.id);
+    el.innerHTML = '';
+    for (let i = 0; i < ph.count; i++) {
+      const idx = ph.start + i;
+      const val = (realData[ph.key] || [])[idx] || '';
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'background:var(--card);border:.5px solid var(--bd);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;';
+      if (val) wrap.style.background = 'var(--green-l)';
+      wrap.innerHTML = `<span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">${ph.label} ${idx+1}</span><span style="font-size:13px;font-weight:600;color:${val?'var(--green-d)':'var(--t3)'};flex:1">${val||'— pendiente —'}</span>`;
+      wrap.onclick = () => {
+        openPicker(`${ph.label} ${idx+1}`, val, (team) => {
+          if (!realData[ph.key]) realData[ph.key] = Array(ph.start+ph.count).fill('');
+          realData[ph.key][idx] = team;
+          renderRealInputs();
+          document.getElementById('real-status').textContent = '● Sin guardar';
+        });
+      };
+      el.appendChild(wrap);
+    }
+  });
+
+  // Final
+  const finalEl = document.getElementById('real-final');
+  const finalDefs = [
+    {key:'c1',label:'🥇 Campeón',cls:'gold'},{key:'c2',label:'🥈 Vicecampeón',cls:'silver'},
+    {key:'c3',label:'🥉 3° lugar',cls:'bronze'},{key:'c4',label:'4° lugar',cls:''}
+  ];
+  finalEl.innerHTML = '';
+  finalDefs.forEach(fd => {
+    const val = realData.final[fd.key] || '';
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `background:var(--card);border:.5px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;text-align:center;`;
+    wrap.innerHTML = `<div style="font-size:11px;color:var(--t3);margin-bottom:4px">${fd.label}</div><div style="font-size:15px;font-weight:700;color:${val?'var(--green-d)':'var(--t3)'}">${val||'—'}</div>`;
+    wrap.onclick = () => {
+      openPicker(fd.label, val, (team) => {
+        realData.final[fd.key] = team;
+        renderRealInputs();
+        document.getElementById('real-status').textContent = '● Sin guardar';
+      });
+    };
+    finalEl.appendChild(wrap);
+  });
+}
+
+function saveReal() {
+  saveReal2(realData);
+  document.getElementById('real-status').textContent = '✓ Guardado · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  renderLB();
+  // refresh bracket if open
+  if (currentPlayer) loadPlayer(currentPlayer);
+}
+
+// ═══════════════════════════════════════════════════════
+//  SCORING ENGINE
+// ═══════════════════════════════════════════════════════
+
+function scorePlayer(name) {
+  const d = loadData(name);
+  const r = realData;
+  let total = 0, ph = [0,0,0,0,0];
+
+  function phaseScore(dArr, rArr, exact, partial) {
+    let pts = 0;
+    const rSet = new Set(rArr.filter(Boolean));
+    dArr.forEach((pred, i) => {
+      const rVal = (rArr[i] || '');
+      if (!pred || !rVal) return;
+      if (pred === rVal) pts += exact;
+      else if (rSet.has(pred)) pts += partial;
+    });
+    return pts;
+  }
+
+  ph[0] = phaseScore(d.g32||[], r.g32||[], 2, 1);
+  ph[1] = phaseScore(d.r16||[], r.r16||[], 4, 2);
+  ph[2] = phaseScore(d.qf||[],  r.qf||[],  8, 4);
+  ph[3] = phaseScore(d.sf||[],  r.sf||[],  16, 8);
+
+  // Final
+  const top4 = new Set(['c1','c2','c3','c4'].map(k=>r.final[k]).filter(Boolean));
+  ['c1','c2','c3','c4'].forEach(pos => {
+    const pred = d.final[pos] || '', rVal = r.final[pos] || '';
+    if (!pred || !top4.size) return;
+    if (rVal && pred === rVal) ph[4] += 64;
+    else if (top4.has(pred)) ph[4] += 32;
+  });
+
+  total = ph.reduce((a,b)=>a+b,0);
+  return { total, ph, champ: d.final.c1||'?', vice: d.final.c2||'?', g32: d.g32, final: d.final };
+}
+
+// ═══════════════════════════════════════════════════════
+//  LEADERBOARD
+// ═══════════════════════════════════════════════════════
+
+function renderLB() {
+  const MAX = 32*2 + 16*4 + 8*8 + 4*16 + 4*64; // 512
+  const scores = PLAYERS.map(p => ({ name:p, ...scorePlayer(p) }))
+    .sort((a,b) => b.total - a.total);
+
+  const hasAnyData = scores.some(s => s.total > 0 || (s.g32 && s.g32.some(Boolean)));
+  const hasReal    = realData.g32.some(Boolean);
+
+  document.getElementById('lb-list').innerHTML = scores.map((s, i) => {
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    const cls   = i===0?'p1':i===1?'p2':i===2?'p3':'';
+    const pct   = Math.round(s.total / MAX * 100);
+    const filled = s.g32 ? s.g32.filter(Boolean).length : 0;
+    const sub   = hasReal
+      ? `🏆 ${s.champ} · 🥈 ${s.vice}`
+      : (filled > 0 ? `${filled}/32 slots llenados · 🏆 ${s.champ}` : 'Bracket vacío — ve a ✏️ Editar bracket');
+    return `<div class="lc ${cls}" onclick="goEditPlayer('${s.name}')">
+      <div class="rn">${medal}</div>
+      <div class="li">
+        <div class="ln">${s.name}</div>
+        <div class="lsub">${sub}</div>
+        ${hasReal ? `<div class="pb"><div class="pf" style="width:${pct}%"></div></div>` : ''}
+      </div>
+      <div class="lpts">
+        <div class="lnum">${hasReal ? s.total : (filled>0?'✓':'—')}</div>
+        <div class="llbl">${hasReal?'pts':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function goEditPlayer(name) {
+  showTab('editor', document.querySelectorAll('.tab')[1]);
+  document.getElementById('player-select').value = name;
+  loadPlayer(name);
+}
+
+// ═══════════════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════════════
+
+function showTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  if (el) el.classList.add('on'); else document.querySelectorAll('.tab')[['leaderboard','editor','real','rules'].indexOf(id)].classList.add('on');
+  document.getElementById('panel-'+id).classList.add('on');
+}
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+
+// Populate player select
+const sel = document.getElementById('player-select');
+PLAYERS.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = opt.textContent = p;
+  sel.appendChild(opt);
+});
+
+renderRealInputs();
+renderLB();
+</script>
+
+
+
+
+<div id="api-banner" style="position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:.5px solid var(--bd);padding:10px 16px;display:flex;align-items:center;gap:10px;z-index:300;max-width:720px;margin:0 auto;">
+  <div style="flex:1">
+    <div style="font-size:12px;font-weight:600;color:var(--t1)">🔴 Conexión en vivo · BallDontLie API</div>
+    <div style="font-size:11px;color:var(--t3)" id="api-status-text">Sin clave API · resultados manuales activos · toca ⚙️ para configurar</div>
+  </div>
+  <button onclick="showApiConfig()" style="padding:6px 14px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer">⚙️ Configurar</button>
+</div>
+
+<div id="api-config-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:400;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--card);border-radius:16px;padding:24px;max-width:420px;width:100%">
+    <h2 style="font-size:17px;font-weight:700;margin-bottom:8px">Configurar API del Mundial</h2>
+    <p style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.5">
+      1. Crea cuenta gratis en <strong>app.balldontlie.io</strong><br>
+      2. Activa el trial de 48h (Mundial 2026)<br>
+      3. Copia tu API Key y pégala aquí
+    </p>
+    <input id="api-key-input" type="text" placeholder="Tu API Key de BallDontLie..." style="width:100%;padding:10px 12px;border-radius:8px;border:.5px solid var(--bd2);background:var(--bg);color:var(--t1);font-size:13px;margin-bottom:12px;">
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);cursor:pointer">
+        <input type="checkbox" id="api-auto-refresh" checked=""> Auto-actualizar cada 5 min
+      </label>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button onclick="hideApiConfig()" style="flex:1;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd);border-radius:8px;font-size:13px;cursor:pointer">Cancelar</button>
+      <button onclick="saveApiKey()" style="flex:1;padding:9px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer">Guardar y conectar</button>
+    </div>
+    <div id="api-test-result" style="margin-top:12px;font-size:12px;display:none"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  BALLDONTLIE API INTEGRATION
+// ══════════════════════════════════════════════════
+
+const API_BASE = 'https://api.balldontlie.io/fifa/worldcup/v1';
+
+// Nombre en inglés → nombre en español normalizado
+const EN_TO_ES = {
+  'Mexico':'MEXICO','South Africa':'SUDAFRICA','South Korea':'COREA DEL SUR',
+  'Czech Republic':'R.CHECA','Canada':'CANADA','Bosnia & Herzegovina':'BOSNIA',
+  'Bosnia and Herzegovina':'BOSNIA','Switzerland':'SUIZA','Brazil':'BRASIL',
+  'Morocco':'MARRUECOS','Scotland':'ESCOCIA','USA':'EE.UU.','United States':'EE.UU.',
+  'Ecuador':'ECUADOR','Argentina':'ARGENTINA','Spain':'ESPAÑA','France':'FRANCIA',
+  'Germany':'ALEMANIA','Japan':'JAPON','Belgium':'BELGICA','Portugal':'PORTUGAL',
+  'Netherlands':'P.BAJOS','Colombia':'COLOMBIA','Croatia':'CROACIA','Uruguay':'URUGUAY',
+  'England':'INGLATERRA','Senegal':'SENEGAL','Sweden':'SUECIA','Norway':'NORUEGA',
+  'Australia':'AUSTRALIA','Austria':'AUSTRIA','Algeria':'ARGELIA','Egypt':'EGIPTO',
+  'Paraguay':'PARAGUAY','Turkey':'TURQUIA','Ghana':'GHANA','Iran':'IRAN',
+  'Iraq':'IRAK','Jordan':'JORDANIA','New Zealand':'N.ZELANDA','Ivory Coast':'C.MARFIL',
+  "Côte d'Ivoire":'C.MARFIL',"Cote d'Ivoire":'C.MARFIL',
+  'Saudi Arabia':'ARABIA S.','DR Congo':'R.CONGO','Cape Verde':'CABO VERDE',
+  'Serbia':'SERBIA','Ukraine':'UCRANIA','Poland':'POLONIA','Denmark':'DINAMARCA',
+  'Romania':'RUMANIA','Hungary':'HUNGRIA','Greece':'GRECIA',
+  'Korea Republic':'COREA DEL SUR','Wales':'GALES','Albania':'ALBANIA',
+  'Slovenia':'ESLOVENIA','Georgia':'GEORGIA','China PR':'CHINA',
+  'Haiti':'HAITI','Venezuela':'VENEZUELA','Peru':'PERU','Chile':'CHILE',
+  'Honduras':'HONDURAS','Panama':'PANAMA','Jamaica':'JAMAICA',
+  'Trinidad & Tobago':'T&TOBAGO','Tunisia':'TUNEZ','Nigeria':'NIGERIA',
+  'Cameroon':'CAMERUN','Kosovo':'KOSOVO','Iceland':'ISLANDIA',
+  'Uzbekistan':'UZBEKISTAN','Indonesia':'INDONESIA','New Zealand':'N.ZELANDA',
+  'Qatar':'QATAR'
+};
+
+function teamToES(name) {
+  if (!name) return '';
+  return EN_TO_ES[name] || name.toUpperCase();
+}
+
+let apiKey = localStorage.getItem('bdl_api_key') || '';
+let autoRefreshInterval = null;
+
+function showApiConfig() {
+  document.getElementById('api-key-input').value = apiKey;
+  document.getElementById('api-config-modal').style.display = 'flex';
+  document.getElementById('api-test-result').style.display = 'none';
+}
+function hideApiConfig() {
+  document.getElementById('api-config-modal').style.display = 'none';
+}
+
+function saveApiKey() {
+  const k = document.getElementById('api-key-input').value.trim();
+  if (!k) return;
+  apiKey = k;
+  localStorage.setItem('bdl_api_key', k);
+  testAndFetch();
+}
+
+function setApiStatus(msg, color) {
+  const el = document.getElementById('api-status-text');
+  if (el) el.textContent = msg;
+}
+
+async function testAndFetch() {
+  if (!apiKey) { setApiStatus('Sin clave configurada — resultados manuales activos'); return; }
+  setApiStatus('⏳ Conectando con BallDontLie...');
+  try {
+    await fetchAndApplyResults();
+    hideApiConfig();
+    const autoOn = document.getElementById('api-auto-refresh')?.checked;
+    if (autoOn) {
+      clearInterval(autoRefreshInterval);
+      autoRefreshInterval = setInterval(fetchAndApplyResults, 5 * 60 * 1000);
+    }
+  } catch(e) {
+    setApiStatus('❌ Error: ' + e.message);
+    const r = document.getElementById('api-test-result');
+    r.style.display = 'block';
+    r.style.color = 'var(--red)';
+    r.textContent = 'Error: ' + e.message + '. Verifica tu clave API.';
+  }
+}
+
+async function apiFetch(endpoint, params = {}) {
+  const url = new URL(API_BASE + endpoint);
+  url.searchParams.set('per_page', '100');
+  Object.entries(params).forEach(([k, v]) => {
+    if (Array.isArray(v)) v.forEach(vi => url.searchParams.append(k+'[]', vi));
+    else url.searchParams.set(k, v);
+  });
+  const res = await fetch(url.toString(), {
+    headers: { 'Authorization': apiKey }
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status + (res.status === 401 ? ' — Clave inválida' : ''));
+  return res.json();
+}
+
+// Nombres de stage de la API → fase de nuestra polla
+const STAGE_MAP = {
+  'Round of 32': 'r32',      // los 32 que entran a 16avos
+  'Round of 16': 'r16',      // ganadores de 16avos
+  'Quarter-finals': 'qf',
+  'Quarterfinals': 'qf',
+  'Semi-finals': 'sf',
+  'Semifinals': 'sf',
+  'Final': 'final',
+  'Third-place play-off': 'third',
+  'Third place play-off': 'third',
+};
+
+async function fetchAndApplyResults() {
+  setApiStatus('🔄 Actualizando resultados...');
+
+  // Paginar todos los partidos
+  let allMatches = [];
+  let cursor = null;
+  do {
+    const params = { per_page: 100 };
+    if (cursor) params.cursor = cursor;
+    const data = await apiFetch('/matches', params);
+    allMatches = allMatches.concat(data.data || []);
+    cursor = data.meta?.next_cursor || null;
+  } while (cursor);
+
+  // Separar por stage
+  const byStage = {};
+  allMatches.forEach(m => {
+    const stageName = m.stage?.name || '';
+    const stageKey = STAGE_MAP[stageName];
+    if (!stageKey) return;
+    if (!byStage[stageKey]) byStage[stageKey] = [];
+    byStage[stageKey].push(m);
+  });
+
+  // ── Fase 1: los 32 clasificados a 16avos (Round of 32) ──
+  // Los 32 son los participantes de los partidos del Round of 32
+  if (byStage['r32']) {
+    const teams32 = [];
+    byStage['r32'].forEach(m => {
+      if (m.home_team) teams32.push(teamToES(m.home_team.name));
+      if (m.away_team) teams32.push(teamToES(m.away_team.name));
+    });
+    // Llenar slots 0..31 con los equipos únicos
+    const unique32 = [...new Set(teams32)];
+    unique32.forEach((t, i) => { if (i < 32) realData.g32[i] = t; });
+  }
+
+  // ── Fase 2: 16 ganadores de 16avos (Round of 16) ──
+  // Los ganadores son los equipos que ganaron su partido de Round of 32
+  if (byStage['r32']) {
+    const winners = byStage['r32']
+      .filter(m => m.status === 'completed' && m.home_team && m.away_team)
+      .map(m => {
+        const hs = m.home_score ?? -1, as = m.away_score ?? -1;
+        const hp = m.home_score_penalties ?? 0, ap = m.away_score_penalties ?? 0;
+        let winner = null;
+        if (hs > as) winner = m.home_team.name;
+        else if (as > hs) winner = m.away_team.name;
+        else if (hp > ap) winner = m.home_team.name;
+        else if (ap > hp) winner = m.away_team.name;
+        return winner ? teamToES(winner) : null;
+      })
+      .filter(Boolean);
+    winners.forEach((t, i) => { if (i < 16) realData.r16[i] = t; });
+  }
+
+  // ── Fase 3: 8 cuartofinalistas (ganadores de Round of 16) ──
+  if (byStage['r16']) {
+    const winners = byStage['r16']
+      .filter(m => m.status === 'completed' && m.home_team && m.away_team)
+      .map(m => {
+        const hs = m.home_score ?? -1, as = m.away_score ?? -1;
+        const hp = m.home_score_penalties ?? 0, ap = m.away_score_penalties ?? 0;
+        let winner = null;
+        if (hs > as) winner = m.home_team.name;
+        else if (as > hs) winner = m.away_team.name;
+        else if (hp > ap) winner = m.home_team.name;
+        else if (ap > hp) winner = m.away_team.name;
+        return winner ? teamToES(winner) : null;
+      })
+      .filter(Boolean);
+    winners.forEach((t, i) => { if (i < 8) realData.qf[i] = t; });
+  }
+
+  // ── Fase 4: 4 semifinalistas (ganadores de cuartos) ──
+  if (byStage['qf']) {
+    const winners = byStage['qf']
+      .filter(m => m.status === 'completed' && m.home_team && m.away_team)
+      .map(m => {
+        const hs = m.home_score ?? -1, as = m.away_score ?? -1;
+        const hp = m.home_score_penalties ?? 0, ap = m.away_score_penalties ?? 0;
+        if (hs > as) return teamToES(m.home_team.name);
+        if (as > hs) return teamToES(m.away_team.name);
+        if (hp > ap) return teamToES(m.home_team.name);
+        if (ap > hp) return teamToES(m.away_team.name);
+        return null;
+      })
+      .filter(Boolean);
+    winners.forEach((t, i) => { if (i < 4) realData.sf[i] = t; });
+  }
+
+  // ── Fase 5: Final ──
+  if (byStage['final']?.length > 0) {
+    const f = byStage['final'][0];
+    if (f.status === 'completed' && f.home_team && f.away_team) {
+      const hs = f.home_score ?? 0, as = f.away_score ?? 0;
+      const hp = f.home_score_penalties ?? 0, ap = f.away_score_penalties ?? 0;
+      if (hs > as || hp > ap) {
+        realData.final.c1 = teamToES(f.home_team.name);
+        realData.final.c2 = teamToES(f.away_team.name);
+      } else {
+        realData.final.c1 = teamToES(f.away_team.name);
+        realData.final.c2 = teamToES(f.home_team.name);
+      }
+    }
+  }
+  if (byStage['third']?.length > 0) {
+    const t = byStage['third'][0];
+    if (t.status === 'completed' && t.home_team && t.away_team) {
+      const hs = t.home_score ?? 0, as = t.away_score ?? 0;
+      const hp = t.home_score_penalties ?? 0, ap = t.away_score_penalties ?? 0;
+      if (hs > as || hp > ap) {
+        realData.final.c3 = teamToES(t.home_team.name);
+        realData.final.c4 = teamToES(t.away_team.name);
+      } else {
+        realData.final.c3 = teamToES(t.away_team.name);
+        realData.final.c4 = teamToES(t.home_team.name);
+      }
+    }
+  }
+
+  // Guardar y re-renderizar
+  saveReal2(realData);
+
+  const completedCount = allMatches.filter(m => m.status === 'completed').length;
+  const liveCount = allMatches.filter(m => m.status === 'in_progress').length;
+  const now = new Date().toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
+  setApiStatus(
+    liveCount > 0
+      ? `🔴 EN VIVO · ${liveCount} partido${liveCount>1?'s':''} en curso · ${now}`
+      : `✅ Actualizado ${now} · ${completedCount} partidos completados`
+  );
+
+  renderAll();
+  renderRealInputs();
+  if (currentPlayer) loadPlayer(currentPlayer);
+}
+
+// ══════════════════════════════════════════════════
+//  EXPORTAR / IMPORTAR DATOS
+// ══════════════════════════════════════════════════
+
+function exportarDatos() {
+  // Recopilar todos los datos: brackets de cada jugador + resultados reales
+  const exportData = {
+    version: 1,
+    fecha: new Date().toISOString(),
+    resultados_reales: loadReal(),
+    brackets: {}
+  };
+  PLAYERS.forEach(p => {
+    exportData.brackets[p] = loadData(p);
+  });
+
+  // Crear y descargar el archivo JSON
+  const json = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `polla2026_datos_${new Date().toLocaleDateString('es-ES').replace(/\//g,'-')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importarArchivo(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('import-text').value = e.target.result;
+  };
+  reader.readAsText(file);
+}
+
+function importarDatos() {
+  const text = document.getElementById('import-text').value.trim();
+  const errEl = document.getElementById('import-error');
+  errEl.style.display = 'none';
+
+  if (!text) {
+    errEl.textContent = 'Pega el contenido del JSON primero.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch(e) {
+    errEl.textContent = 'El texto no es un JSON válido. ¿Copiaste bien el archivo?';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  if (!data.brackets || !data.version) {
+    errEl.textContent = 'El archivo no parece ser un export de esta polla.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Cargar brackets de cada jugador
+  let loaded = 0;
+  PLAYERS.forEach(p => {
+    if (data.brackets[p]) {
+      saveData(p, data.brackets[p]);
+      loaded++;
+    }
+  });
+
+  // Cargar resultados reales si los hay
+  if (data.resultados_reales) {
+    realData = data.resultados_reales;
+    saveReal2(realData);
+  }
+
+  // Cerrar modal y refrescar
+  document.getElementById('import-modal').style.display = 'none';
+  document.getElementById('import-text').value = '';
+  renderAll();
+  renderRealInputs();
+  if (currentPlayer) loadPlayer(currentPlayer);
+
+  // Confirmación visual
+  alert(`✅ Datos cargados correctamente.\n${loaded} brackets importados.`);
+}
+
+// Inicializar si hay clave guardada
+if (apiKey) {
+  setApiStatus('Clave guardada · conectando...');
+  fetchAndApplyResults().catch(e => setApiStatus('❌ ' + e.message));
+  autoRefreshInterval = setInterval(fetchAndApplyResults, 5 * 60 * 1000);
+} else {
+  setApiStatus('Sin clave API · resultados manuales activos · toca ⚙️ para configurar');
+}
+</script>
+</body></html>
