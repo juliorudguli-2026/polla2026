@@ -7,12 +7,11 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --green:#1D9E75;--green-l:#E1F5EE;--green-d:#085041;
-  --gold:#EF9F27;--gold-l:#FAEEDA;--gold-d:#633806;
-  --silver:#B4B2A9;--silver-l:#D3D1C7;--silver-d:#444441;
-  --bronze:#D85A30;--bronze-l:#FAECE7;--bronze-d:#4A1B0C;
-  --blue:#378ADD;--blue-l:#E6F1FB;--blue-d:#0C447C;
-  --red:#E24B4A;
+  --gr:#1D9E75;--gr-l:#E1F5EE;--gr-d:#085041;
+  --go:#EF9F27;--go-l:#FAEEDA;--go-d:#633806;
+  --si:#B4B2A9;--si-l:#D3D1C7;--si-d:#444441;
+  --br:#D85A30;--br-l:#FAECE7;--br-d:#4A1B0C;
+  --bl:#378ADD;--bl-l:#E6F1FB;--bl-d:#0C447C;
   --bg:#F5F4F0;--card:#fff;--card2:#FAFAF8;
   --t1:#1C1C1A;--t2:#5F5E5A;--t3:#9C9A94;
   --bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);
@@ -22,103 +21,82 @@
   --bg:#141412;--card:#1E1E1C;--card2:#242422;
   --t1:#F0EFE9;--t2:#B4B2A9;--t3:#6E6C67;
   --bd:rgba(255,255,255,.09);--bd2:rgba(255,255,255,.18);
-  --green-l:#04342C;--blue-l:#042C53;--gold-l:#412402;
+  --gr-l:#04342C;--bl-l:#042C53;--go-l:#412402;
 }}
-
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;font-size:15px;}
-
-/* ── TOPBAR ── */
-.topbar{background:var(--green);color:#fff;padding:14px 16px 11px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;}
-.topbar h1{font-size:17px;font-weight:700;flex:1;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;}
+.topbar{background:var(--gr);color:#fff;padding:14px 16px 11px;position:sticky;top:0;z-index:200;}
+.topbar h1{font-size:17px;font-weight:700;}
 .topbar p{font-size:11px;opacity:.75;}
-
-/* ── TABS ── */
 .tabs{display:flex;background:var(--card);border-bottom:.5px solid var(--bd);position:sticky;top:50px;z-index:199;overflow-x:auto;}
 .tab{flex:1;padding:11px 6px;font-size:12px;font-weight:500;color:var(--t3);border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;min-width:65px;}
-.tab.on{color:var(--green);border-bottom-color:var(--green);}
-
+.tab.on{color:var(--gr);border-bottom-color:var(--gr);}
 .panel{display:none;padding:14px;max-width:720px;margin:0 auto;}
 .panel.on{display:block;}
-
-/* ── LEADERBOARD ── */
+/* LEADERBOARD */
 .lb{display:flex;flex-direction:column;gap:7px;}
-.lc{display:flex;align-items:center;gap:11px;background:var(--card);border-radius:12px;border:.5px solid var(--bd);padding:12px 14px;cursor:pointer;transition:border-color .15s;}
-.lc:hover{border-color:var(--green);}
-.lc.p1{border:2px solid var(--gold);}
-.lc.p2{border:1.5px solid var(--silver);}
-.lc.p3{border:1.5px solid var(--bronze);}
+.lc{display:flex;align-items:center;gap:11px;background:var(--card);border-radius:12px;border:.5px solid var(--bd);padding:12px 14px;cursor:pointer;}
+.lc.p1{border:2px solid var(--go);}
+.lc.p2{border:1.5px solid var(--si);}
+.lc.p3{border:1.5px solid var(--br);}
 .rn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--bg);color:var(--t3);flex-shrink:0;}
-.p1 .rn{background:var(--gold-l);color:var(--gold-d);}
-.p2 .rn{background:var(--silver-l);color:var(--silver-d);}
-.p3 .rn{background:var(--bronze-l);color:var(--bronze-d);}
+.p1 .rn{background:var(--go-l);color:var(--go-d);}
+.p2 .rn{background:var(--si-l);color:var(--si-d);}
+.p3 .rn{background:var(--br-l);color:var(--br-d);}
 .li{flex:1;min-width:0;}
 .ln{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .lsub{font-size:11px;color:var(--t3);margin-top:2px;}
 .pb{height:3px;background:var(--bg);border-radius:2px;margin-top:5px;}
-.pf{height:100%;background:var(--green);border-radius:2px;}
+.pf{height:100%;background:var(--gr);border-radius:2px;}
 .lpts{text-align:right;flex-shrink:0;}
 .lnum{font-size:24px;font-weight:800;line-height:1;}
 .llbl{font-size:10px;color:var(--t3);}
-
-/* ── EDITOR DE BRACKET ── */
+.export-bar{display:flex;gap:8px;margin-top:14px;}
+.btn-main{flex:1;padding:11px;background:var(--gr);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-out{flex:1;padding:11px;background:var(--card);color:var(--gr);border:1.5px solid var(--gr);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;}
+/* EDITOR */
 .editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap;}
 .editor-title{font-size:16px;font-weight:700;}
-.player-select-wrap{display:flex;align-items:center;gap:8px;}
 .player-select{padding:7px 12px;border-radius:var(--r);border:.5px solid var(--bd2);background:var(--card);color:var(--t1);font-size:13px;font-weight:500;}
-
-/* ── BRACKET DIAGRAM ── */
+.notice{background:var(--bl-l);border:.5px solid rgba(55,138,221,.3);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--bl-d);margin-bottom:14px;line-height:1.5;}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+/* BRACKET */
 .bracket-outer{overflow-x:auto;padding-bottom:12px;}
 .bracket{display:flex;gap:0;align-items:stretch;min-width:620px;}
 .phase{display:flex;flex-direction:column;flex-shrink:0;}
 .phase-header{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);padding:6px 8px 8px;text-align:center;}
-
-/* Each "match" in a phase */
 .match-group{display:flex;flex-direction:column;justify-content:center;flex:1;position:relative;}
 .match-group::after{content:'';position:absolute;right:0;top:25%;height:50%;border-right:.5px solid var(--bd2);}
 .match-group.no-line::after{display:none;}
-
-/* Slot = one team entry */
 .slot{margin:2px 4px;position:relative;}
-.slot-input{
-  width:100%;padding:5px 8px;
-  border-radius:6px;border:.5px solid var(--bd2);
-  background:var(--card2);color:var(--t1);
-  font-size:11px;font-weight:500;
-  cursor:pointer;
-  transition:border-color .15s,background .15s;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  text-align:left;
-}
-.slot-input:hover{border-color:var(--green);background:var(--green-l);}
-.slot-input.filled{background:var(--green-l);border-color:var(--green);color:var(--green-d);}
-.slot-input.exact{background:var(--green-l);border-color:var(--green);color:var(--green-d);}
-.slot-input.partial{background:var(--gold-l);border-color:var(--gold);color:var(--gold-d);}
-.slot-input.wrong{background:var(--bg);border-color:var(--bd);color:var(--t3);}
-.slot-input.real-exact{background:var(--green-l);border-color:var(--green);color:var(--green-d);font-weight:700;}
-
-/* connector lines between phases */
+.slot-btn{width:100%;padding:5px 8px;border-radius:6px;border:.5px solid var(--bd2);background:var(--card2);color:var(--t1);font-size:11px;font-weight:500;cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.slot-btn:hover{border-color:var(--gr);background:var(--gr-l);}
+.slot-btn.filled{background:var(--gr-l);border-color:var(--gr);color:var(--gr-d);}
+.slot-btn.exact{background:var(--gr-l);border-color:var(--gr);color:var(--gr-d);}
+.slot-btn.partial{background:var(--go-l);border-color:var(--go);color:var(--go-d);}
+.slot-btn.wrong{background:var(--bg);border-color:var(--bd);color:var(--t3);}
 .connector{width:16px;display:flex;flex-direction:column;flex-shrink:0;}
 .conn-pair{display:flex;flex-direction:column;justify-content:center;flex:1;position:relative;}
 .conn-pair::before{content:'';position:absolute;left:0;top:25%;height:50%;border-left:.5px solid var(--bd2);}
 .conn-pair::after{content:'';position:absolute;left:0;top:50%;width:100%;border-top:.5px solid var(--bd2);}
-
-/* Final podium */
 .podium{display:flex;flex-direction:column;justify-content:center;gap:6px;padding:0 8px;min-width:110px;}
-.podium-slot{padding:7px 10px;border-radius:8px;border:.5px solid var(--bd);background:var(--card);text-align:center;}
-.podium-slot.gold{border:2px solid var(--gold);background:var(--gold-l);}
-.podium-slot.silver{border:1.5px solid var(--silver);background:var(--silver-l);}
-.podium-slot.bronze{border:1.5px solid var(--bronze);background:var(--bronze-l);}
-.podium-slot.fourth{border:.5px solid var(--green);}
+.podium-slot{padding:7px 10px;border-radius:8px;border:.5px solid var(--bd);background:var(--card);text-align:center;cursor:pointer;}
+.podium-slot.gold{border:2px solid var(--go);background:var(--go-l);}
+.podium-slot.silver{border:1.5px solid var(--si);background:var(--si-l);}
+.podium-slot.bronze{border:1.5px solid var(--br);background:var(--br-l);}
 .podium-label{font-size:10px;font-weight:600;color:var(--t3);display:block;margin-bottom:3px;}
-.gold .podium-label{color:var(--gold-d);}
-.silver .podium-label{color:var(--silver-d);}
-.bronze .podium-label{color:var(--bronze-d);}
+.gold .podium-label{color:var(--go-d);}
+.silver .podium-label{color:var(--si-d);}
+.bronze .podium-label{color:var(--br-d);}
 .podium-team{font-size:12px;font-weight:700;color:var(--t1);min-height:18px;}
-.gold .podium-team{color:var(--gold-d);}
-.silver .podium-team{color:var(--silver-d);}
-.bronze .podium-team{color:var(--bronze-d);}
-
-/* ── DROPDOWN PICKER ── */
+.gold .podium-team{color:var(--go-d);}
+.silver .podium-team{color:var(--si-d);}
+.bronze .podium-team{color:var(--br-d);}
+.save-bar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:var(--r);padding:10px 14px;margin-top:14px;font-size:12px;color:var(--t3);border:.5px solid var(--bd);}
+.btn-green{padding:8px 20px;background:var(--gr);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+.btn-ghost{padding:7px 14px;background:transparent;color:var(--gr);border:.5px solid var(--gr);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;}
+/* PICKER */
 .picker-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:flex-end;justify-content:center;}
 .picker-overlay.open{display:flex;}
 .picker-box{background:var(--card);width:100%;max-width:480px;border-radius:16px 16px 0 0;padding:16px;max-height:70vh;display:flex;flex-direction:column;}
@@ -128,126 +106,70 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .picker-search{width:100%;padding:9px 12px;border-radius:8px;border:.5px solid var(--bd2);background:var(--card2);color:var(--t1);font-size:14px;margin-bottom:10px;}
 .picker-list{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:4px;}
 .picker-opt{padding:10px 14px;border-radius:8px;border:none;background:none;text-align:left;font-size:14px;cursor:pointer;color:var(--t1);width:100%;}
-.picker-opt:hover{background:var(--green-l);color:var(--green-d);}
+.picker-opt:hover{background:var(--gr-l);color:var(--gr-d);}
 .picker-opt.clear{color:var(--t3);font-style:italic;}
-.picker-opt.clear:hover{background:var(--bg);}
-
-/* ── SAVE BAR ── */
-.save-bar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:var(--r);padding:10px 14px;margin-top:14px;font-size:12px;color:var(--t3);border:.5px solid var(--bd);}
-.btn-green{padding:8px 20px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
-.btn-green:hover{background:var(--green-d);}
-.btn-ghost{padding:7px 14px;background:transparent;color:var(--green);border:.5px solid var(--green);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;}
-
-/* ── DETAIL / SCORING ── */
-.notice{background:var(--blue-l);border:.5px solid rgba(55,138,221,.25);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--blue-d);margin-bottom:14px;line-height:1.5;}
+/* RESULTADOS REALES */
 .sec{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t3);padding:10px 0 6px;border-bottom:.5px solid var(--bd);margin-bottom:8px;}
-.row{display:flex;align-items:center;padding:7px 0;border-bottom:.5px solid var(--bd);font-size:13px;gap:8px;}
-.row:last-child{border-bottom:none;}
-.row .team{flex:1;color:var(--blue);font-weight:500;}
-.row .rteam{flex:1;color:var(--t2);font-size:12px;}
-.badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:5px;flex-shrink:0;}
-.bx{background:var(--green-l);color:var(--green-d);}
-.bp{background:var(--gold-l);color:var(--gold-d);}
-.bz{background:var(--bg);color:var(--t3);}
-.bn{background:var(--blue-l);color:var(--blue-d);}
-
-/* ── RULES ── */
+/* REGLAS */
 .rc{background:var(--card);border:.5px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px;}
 .rh{font-size:15px;font-weight:700;margin-bottom:12px;}
 .rr{display:flex;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--bd);font-size:13px;}
 .rr:last-child{border-bottom:none;}
-.rx{color:var(--green);font-weight:700;} .rp{color:var(--gold-d);font-weight:700;} .r0{color:var(--t3);font-weight:700;}
-
-/* ── SCORING LEGEND ── */
-.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2);}
-.leg-dot{width:10px;height:10px;border-radius:3px;}
-
-/* ── STATUS DOT ── */
-.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--bd2);border-top-color:var(--green);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:4px;}
-@keyframes sp{to{transform:rotate(360deg)}}
+.rx{color:var(--gr);font-weight:700;}.rp{color:var(--go-d);font-weight:700;}.r0{color:var(--t3);font-weight:700;}
+/* IMPORT MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;align-items:center;justify-content:center;padding:20px;}
+.modal.open{display:flex;}
+.modal-box{background:var(--card);border-radius:16px;padding:24px;max-width:440px;width:100%;}
+.modal-box h2{font-size:17px;font-weight:700;margin-bottom:8px;}
+.modal-box p{font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.5;}
+textarea{width:100%;height:140px;padding:10px;border-radius:8px;border:.5px solid var(--bd2);background:var(--bg);color:var(--t1);font-size:12px;font-family:monospace;resize:vertical;margin-bottom:10px;}
+.modal-btns{display:flex;gap:8px;}
+.btn-cancel{flex:1;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd);border-radius:8px;font-size:13px;cursor:pointer;}
+.err{font-size:12px;color:#E24B4A;display:none;margin-bottom:8px;}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div>
-    <h1>🏆 Polla Mundialista 2026</h1>
-    <p>Familia Santos · El que más sabe de fútbol, soy yo</p>
-  </div>
+  <h1>🏆 Polla Mundialista 2026</h1>
+  <p>Familia Santos · El que más sabe de fútbol, soy yo</p>
 </div>
 
 <div class="tabs">
   <button class="tab on" onclick="showTab('leaderboard',this)">🏅 Tabla</button>
   <button class="tab" onclick="showTab('editor',this)">✏️ Editar bracket</button>
-  <button class="tab" onclick="showTab('real',this)">⚽ Resultados reales</button>
+  <button class="tab" onclick="showTab('real',this)">⚽ Resultados</button>
   <button class="tab" onclick="showTab('rules',this)">📋 Reglas</button>
 </div>
 
-<!-- ═══════════ LEADERBOARD ═══════════ -->
+<!-- TABLA -->
 <div class="panel on" id="panel-leaderboard">
-  <div class="lb" id="lb-list">
-    <div style="text-align:center;padding:40px;color:var(--t3)">Cargando...</div>
+  <div class="lb" id="lb-list"></div>
+  <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:10px">Toca un nombre para editar su bracket</p>
+  <div class="export-bar">
+    <button class="btn-main" id="btn-export">⬇️ Exportar mis datos</button>
+    <button class="btn-out" id="btn-import">⬆️ Importar datos</button>
   </div>
-  <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:10px">Toca un nombre para ver su bracket completo</p>
-
-  <!-- EXPORTAR / IMPORTAR -->
-  <div style="display:flex;gap:8px;margin-top:16px;">
-    <button onclick="exportarDatos()" style="flex:1;padding:10px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">
-      ⬇️ Exportar mis datos
-    </button>
-    <button onclick="document.getElementById('import-modal').style.display='flex'" style="flex:1;padding:10px;background:var(--card);color:var(--green);border:1.5px solid var(--green);border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;">
-      ⬆️ Importar datos
-    </button>
-  </div>
-  <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px;">Exporta para guardar una copia · Importa para cargar en otro dispositivo</p>
+  <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px">Exporta para guardar · Importa para cargar en otro dispositivo</p>
 </div>
 
-<!-- MODAL IMPORTAR -->
-<div id="import-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:var(--card);border-radius:16px;padding:24px;max-width:440px;width:100%;">
-    <h2 style="font-size:17px;font-weight:700;margin-bottom:8px;">⬆️ Importar datos</h2>
-    <p style="font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.5;">
-      Pega aquí el contenido del archivo <strong>.json</strong> que exportaste, o arrastra el archivo directamente.
-    </p>
-    <textarea id="import-text" placeholder='Pega aquí el JSON exportado...' style="width:100%;height:140px;padding:10px;border-radius:8px;border:.5px solid var(--bd2);background:var(--bg);color:var(--t1);font-size:12px;font-family:monospace;resize:vertical;margin-bottom:10px;"></textarea>
-    <input type="file" id="import-file" accept=".json" onchange="importarArchivo(this)" style="display:none;">
-    <button onclick="document.getElementById('import-file').click()" style="width:100%;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd2);border-radius:8px;font-size:13px;cursor:pointer;margin-bottom:10px;">
-      📂 O elige un archivo .json
-    </button>
-    <div id="import-error" style="font-size:12px;color:var(--red);display:none;margin-bottom:8px;"></div>
-    <div style="display:flex;gap:8px;">
-      <button onclick="document.getElementById('import-modal').style.display='none'" style="flex:1;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd);border-radius:8px;font-size:13px;cursor:pointer;">Cancelar</button>
-      <button onclick="importarDatos()" style="flex:1;padding:9px;background:var(--green);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Cargar datos</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════ EDITOR DE BRACKET ═══════════ -->
+<!-- EDITOR -->
 <div class="panel" id="panel-editor">
   <div class="editor-header">
     <span class="editor-title">Bracket de:</span>
-    <div class="player-select-wrap">
-      <select class="player-select" id="player-select" onchange="loadPlayer(this.value)">
-        <option value="">— elige participante —</option>
-      </select>
-    </div>
+    <select class="player-select" id="player-select" onchange="loadPlayer(this.value)">
+      <option value="">— elige participante —</option>
+    </select>
   </div>
-
   <div id="editor-notice" class="notice" style="display:none"></div>
-
-  <!-- LEYENDA -->
   <div class="legend" id="score-legend" style="display:none">
-    <div class="leg"><div class="leg-dot" style="background:var(--green-l);border:1px solid var(--green)"></div>Exacto</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--gold-l);border:1px solid var(--gold)"></div>Clasificó (otro slot)</div>
-    <div class="leg"><div class="leg-dot" style="background:var(--bg);border:1px solid var(--bd2)"></div>Eliminado / pendiente</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--gr-l);border:1px solid var(--gr)"></div>Exacto</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--go-l);border:1px solid var(--go)"></div>Clasificó (otro slot)</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--bg);border:1px solid var(--bd2)"></div>Eliminado/pendiente</div>
   </div>
-
-  <!-- BRACKET DIAGRAM -->
   <div class="bracket-outer" id="bracket-outer" style="display:none">
     <div class="bracket" id="bracket-diagram"></div>
   </div>
-
   <div class="save-bar" id="editor-savebar" style="display:none">
     <span id="save-status">Sin guardar</span>
     <div style="display:flex;gap:8px">
@@ -255,21 +177,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="btn-green" onclick="savePlayer()">Guardar bracket</button>
     </div>
   </div>
-
   <div id="editor-empty" style="text-align:center;padding:50px 20px;color:var(--t3)">
     <div style="font-size:40px;margin-bottom:12px">✏️</div>
     <div style="font-size:15px;font-weight:600;margin-bottom:6px">Selecciona un participante</div>
-    <div style="font-size:13px">Elige a quién quieres editar arriba</div>
   </div>
 </div>
 
-<!-- ═══════════ RESULTADOS REALES ═══════════ -->
+<!-- RESULTADOS REALES -->
 <div class="panel" id="panel-real">
-  <div class="notice">Aquí ingresas los resultados <strong>reales</strong> del Mundial. Una vez guardados, los puntos de todos los participantes se calculan automáticamente.</div>
-
-  <div class="sec">32 clasificados a 16avos (slots 1–16)</div>
+  <div class="notice">Ingresa los resultados reales del Mundial. Los puntos se calculan automáticamente.</div>
+  <div class="sec">32 clasificados a 16avos · Slots 1–16</div>
   <div id="real-g32a" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
-  <div class="sec">32 clasificados a 16avos (slots 17–32)</div>
+  <div class="sec">32 clasificados a 16avos · Slots 17–32</div>
   <div id="real-g32b" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
   <div class="sec">16 ganadores de 16avos</div>
   <div id="real-r16" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
@@ -279,21 +198,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div id="real-sf" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
   <div class="sec">Final</div>
   <div id="real-final" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"></div>
-
   <div class="save-bar">
     <span id="real-status">Sin guardar</span>
     <button class="btn-green" onclick="saveReal()">Guardar resultados</button>
   </div>
 </div>
 
-<!-- ═══════════ REGLAS ═══════════ -->
+<!-- REGLAS -->
 <div class="panel" id="panel-rules">
   <div class="rc">
     <div class="rh">Sistema de puntuación</div>
-    <div class="rr"><span><b>Fase 1 — 32 clasificados a 16avos</b> (2 pts / slot)</span></div>
+    <div class="rr"><span><b>Fase 1 — 32 clasificados a 16avos</b></span></div>
     <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+2 pts</span></div>
-    <div class="rr" style="padding-left:12px"><span>Clasificó pero en otro slot</span><span class="rp">+1 pt</span></div>
-    <div class="rr" style="padding-left:12px"><span>No clasificó</span><span class="r0">0 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Clasificó pero otro slot</span><span class="rp">+1 pt</span></div>
     <div class="rr"><span><b>Fase 2 — 16 ganadores de 16avos</b></span></div>
     <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+4 pts</span></div>
     <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+2 pts</span></div>
@@ -305,301 +222,283 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+8 pts</span></div>
     <div class="rr"><span><b>Fase 5 — Final (Campeón, Vice, 3°, 4°)</b></span></div>
     <div class="rr" style="padding-left:12px"><span>Posición exacta</span><span class="rx">+64 pts</span></div>
-    <div class="rr" style="padding-left:12px"><span>Entre top 4 pero otra posición</span><span class="rp">+32 pts</span></div>
-    <div class="rr" style="padding-left:12px"><span>Eliminado</span><span class="r0">0 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Entre top 4, otra posición</span><span class="rp">+32 pts</span></div>
   </div>
   <div class="rc">
-    <div class="rh">Puntos máximos posibles: 512</div>
-    <div class="rr"><span>Fase 1: 32 × 2</span><span class="rx">64 pts</span></div>
-    <div class="rr"><span>Fase 2: 16 × 4</span><span class="rx">64 pts</span></div>
-    <div class="rr"><span>Fase 3: 8 × 8</span><span class="rx">64 pts</span></div>
-    <div class="rr"><span>Fase 4: 4 × 16</span><span class="rx">64 pts</span></div>
-    <div class="rr"><span>Fase 5: 4 × 64</span><span class="rx">256 pts</span></div>
+    <div class="rh">Máximo: 512 pts</div>
+    <div class="rr"><span>Fase 1: 32×2</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 2: 16×4</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 3: 8×8</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 4: 4×16</span><span class="rx">64 pts</span></div>
+    <div class="rr"><span>Fase 5: 4×64</span><span class="rx">256 pts</span></div>
     <div class="rr"><b>Total</b><span class="rx" style="font-size:16px">512 pts</span></div>
   </div>
 </div>
 
-<!-- ═══════════ TEAM PICKER ═══════════ -->
-<div class="picker-overlay" id="picker-overlay" onclick="closePicker(event)">
-  <div class="picker-box" onclick="event.stopPropagation()">
+<!-- PICKER -->
+<div class="picker-overlay" id="picker-overlay">
+  <div class="picker-box">
     <div class="picker-header">
       <span class="picker-title" id="picker-label">Seleccionar equipo</span>
-      <button class="picker-close" onclick="closePicker()">✕</button>
+      <button class="picker-close" id="picker-close">✕</button>
     </div>
-    <input class="picker-search" type="text" id="picker-search" placeholder="Buscar equipo..." oninput="filterPicker(this.value)">
+    <input class="picker-search" type="text" id="picker-search" placeholder="Buscar equipo...">
     <div class="picker-list" id="picker-list"></div>
   </div>
 </div>
 
-<script>
-// ═══════════════════════════════════════════════════════
-//  DATOS BASE
-// ═══════════════════════════════════════════════════════
+<!-- IMPORT MODAL -->
+<div class="modal" id="import-modal">
+  <div class="modal-box">
+    <h2>⬆️ Importar datos</h2>
+    <p>Pega el contenido del archivo <strong>datos.json</strong> que exportaste, o elige el archivo.</p>
+    <textarea id="import-text" placeholder='Pega aquí el JSON...'></textarea>
+    <input type="file" id="import-file" accept=".json" style="display:none">
+    <button onclick="document.getElementById('import-file').click()" style="width:100%;padding:9px;background:var(--bg);color:var(--t2);border:.5px solid var(--bd2);border-radius:8px;font-size:13px;cursor:pointer;margin-bottom:10px;">📂 Elegir archivo .json</button>
+    <div class="err" id="import-err"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="import-cancel">Cancelar</button>
+      <button class="btn-green" id="import-ok">Cargar datos</button>
+    </div>
+  </div>
+</div>
 
-const PLAYERS = [
-  "Franklin Navia Santos","Rafael Santos Albán","Brenda Navia Santos",
-  "Tyronne Mendoza Briones","Maximiliano Peña Santos","Mario Navia Santos",
-  "Julio Santos Savala","Elias Urdanigo Soza","Gina Santos Ibarra",
-  "Rommel Santos Andrade","Pablo Santos Andrade","Tony Santos Andrade",
-  "Eduardo Borrero Serrano","Gastón Santos Andrade"
+<script>
+// ═══════════════════════════════════════════
+// DATOS
+// ═══════════════════════════════════════════
+var PLAYERS = [
+  'Franklin Navia Santos','Rafael Santos Albán','Brenda Navia Santos',
+  'Tyronne Mendoza Briones','Maximiliano Peña Santos','Mario Navia Santos',
+  'Julio Santos Savala','Elias Urdanigo Soza','Gina Santos Ibarra',
+  'Rommel Santos Andrade','Pablo Santos Andrade','Tony Santos Andrade',
+  'Eduardo Borrero Serrano','Gastón Santos Andrade'
 ];
 
-const ALL_TEAMS = [
-  "ALEMANIA","ARGELIA","ARGENTINA","ARABIA S.","AUSTRALIA","AUSTRIA","BELGICA",
-  "BOSNIA","BRASIL","C.MARFIL","CABO VERDE","CANADA","COREA DEL SUR","COLOMBIA",
-  "CROACIA","ECUADOR","EGIPTO","EE.UU.","ESCOCIA","ESPAÑA","GHANA","INGLATERRA",
-  "IRAK","IRAN","JAPON","JORDANIA","MARRUECOS","MEXICO","N.ZELANDA","NORUEGA",
-  "P.BAJOS","PARAGUAY","PORTUGAL","QATAR","R.CHECA","R.CONGO","SENEGAL",
-  "SUDAFRICA","SUECIA","SUIZA","TURQUIA","URUGUAY","FRANCIA","HAITI",
-  "BOSNIA","KUWAIT","INDONESIA","UZBEKISTAN","PERU","CHILE","VENEZUELA",
-  "COSTA RICA","HONDURAS","PANAMA","JAMAICA"
+var ALL_TEAMS = [
+  'ALEMANIA','ARGELIA','ARGENTINA','ARABIA S.','AUSTRALIA','AUSTRIA','BELGICA',
+  'BOSNIA','BRASIL','C.MARFIL','CABO VERDE','CANADA','COREA DEL SUR','COLOMBIA',
+  'CROACIA','ECUADOR','EGIPTO','EE.UU.','ESCOCIA','ESPAÑA','GHANA','INGLATERRA',
+  'IRAK','IRAN','JAPON','JORDANIA','MARRUECOS','MEXICO','N.ZELANDA','NORUEGA',
+  'P.BAJOS','PARAGUAY','PORTUGAL','QATAR','R.CHECA','R.CONGO','SENEGAL',
+  'SUDAFRICA','SUECIA','SUIZA','TURQUIA','URUGUAY','FRANCIA','HAITI',
+  'COSTA RICA','HONDURAS','PANAMA','JAMAICA','PERU','CHILE','VENEZUELA',
+  'INDONESIA','UZBEKISTAN','KUWAIT','GEORGIA','ESLOVENIA','ALBANIA','SERBIA'
 ].sort();
 
-// ═══════════════════════════════════════════════════════
-//  ESTADO (guardado en localStorage)
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════
+function pKey(p){ return 'bracket_' + p.replace(/\s/g,'_'); }
+function rKey(){ return 'real_results'; }
 
-function key(player) { return 'bracket_' + player.replace(/\s/g,'_'); }
-function realKey()   { return 'real_results'; }
-
-function loadData(player) {
-  try { return JSON.parse(localStorage.getItem(key(player))) || emptyBracket(); }
-  catch(e) { return emptyBracket(); }
+function emptyBracket(){
+  return { g32:Array(32).fill(''), r16:Array(16).fill(''), qf:Array(8).fill(''), sf:Array(4).fill(''), final:{c1:'',c2:'',c3:'',c4:''} };
 }
-function saveData(player, data) {
-  localStorage.setItem(key(player), JSON.stringify(data));
-}
-function loadReal() {
-  try { return JSON.parse(localStorage.getItem(realKey())) || emptyReal(); }
-  catch(e) { return emptyReal(); }
-}
-function saveReal2(data) { localStorage.setItem(realKey(), JSON.stringify(data)); }
-
-function emptyBracket() {
-  return {
-    g32:  Array(32).fill(''),   // 32 clasificados a 16avos
-    r16:  Array(16).fill(''),   // 16 ganadores de 16avos
-    qf:   Array(8).fill(''),    // 8 cuartofinalistas
-    sf:   Array(4).fill(''),    // 4 semifinalistas
-    final:{ c1:'', c2:'', c3:'', c4:'' }
-  };
-}
-function emptyReal() {
-  return {
-    g32:  Array(32).fill(''),
-    r16:  Array(16).fill(''),
-    qf:   Array(8).fill(''),
-    sf:   Array(4).fill(''),
-    final:{ c1:'', c2:'', c3:'', c4:'' }
-  };
+function emptyReal(){
+  return { g32:Array(32).fill(''), r16:Array(16).fill(''), qf:Array(8).fill(''), sf:Array(4).fill(''), final:{c1:'',c2:'',c3:'',c4:''} };
 }
 
-let currentPlayer = null;
-let currentData   = emptyBracket();
-let realData      = loadReal();
+function loadBracket(p){ try{ return JSON.parse(localStorage.getItem(pKey(p))) || emptyBracket(); }catch(e){ return emptyBracket(); } }
+function saveBracket(p,d){ localStorage.setItem(pKey(p), JSON.stringify(d)); }
+function loadReal(){ try{ return JSON.parse(localStorage.getItem(rKey())) || emptyReal(); }catch(e){ return emptyReal(); } }
+function saveRealData(d){ localStorage.setItem(rKey(), JSON.stringify(d)); }
 
-// ═══════════════════════════════════════════════════════
-//  PICKER
-// ═══════════════════════════════════════════════════════
-let pickerCallback = null;
-let pickerCurrent  = '';
+var currentPlayer = null;
+var currentData = emptyBracket();
+var realData = loadReal();
 
-function openPicker(label, currentVal, callback) {
-  pickerCallback = callback;
-  pickerCurrent  = currentVal;
+// ═══════════════════════════════════════════
+// EXPORTAR / IMPORTAR
+// ═══════════════════════════════════════════
+function exportarDatos(){
+  var exp = { version:1, fecha: new Date().toISOString(), resultados_reales: loadReal(), brackets:{} };
+  PLAYERS.forEach(function(p){ exp.brackets[p] = loadBracket(p); });
+  var json = JSON.stringify(exp, null, 2);
+  var blob = new Blob([json], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'datos.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importarDatos(){
+  var text = document.getElementById('import-text').value.trim();
+  var errEl = document.getElementById('import-err');
+  errEl.style.display = 'none';
+  if(!text){ errEl.textContent='Pega el JSON primero.'; errEl.style.display='block'; return; }
+  var data;
+  try{ data = JSON.parse(text); }catch(e){ errEl.textContent='JSON inválido.'; errEl.style.display='block'; return; }
+  if(!data.brackets){ errEl.textContent='Archivo no reconocido.'; errEl.style.display='block'; return; }
+  PLAYERS.forEach(function(p){ if(data.brackets[p]) saveBracket(p, data.brackets[p]); });
+  if(data.resultados_reales){ realData = data.resultados_reales; saveRealData(realData); }
+  document.getElementById('import-modal').classList.remove('open');
+  document.getElementById('import-text').value = '';
+  renderAll();
+  renderRealInputs();
+  alert('✅ Datos importados correctamente.');
+}
+
+// ═══════════════════════════════════════════
+// PICKER
+// ═══════════════════════════════════════════
+var pickerCb = null, pickerCur = '';
+
+function openPicker(label, cur, cb){
+  pickerCb = cb; pickerCur = cur;
   document.getElementById('picker-label').textContent = label;
   document.getElementById('picker-search').value = '';
   filterPicker('');
   document.getElementById('picker-overlay').classList.add('open');
-  setTimeout(() => document.getElementById('picker-search').focus(), 100);
+  setTimeout(function(){ document.getElementById('picker-search').focus(); }, 100);
 }
-
-function filterPicker(q) {
-  const list = document.getElementById('picker-list');
-  const terms = q.toLowerCase().split('');
-  const filtered = ALL_TEAMS.filter(t => !q || terms.every(c => t.toLowerCase().includes(c)) || t.toLowerCase().includes(q.toLowerCase()));
-  list.innerHTML = `<button class="picker-opt clear" onclick="pickTeam('')">— Limpiar —</button>` +
-    filtered.map(t => `<button class="picker-opt${t===pickerCurrent?' on':''}" onclick="pickTeam('${t}')">${t}</button>`).join('');
+function closePicker(){ document.getElementById('picker-overlay').classList.remove('open'); pickerCb = null; }
+function filterPicker(q){
+  var list = document.getElementById('picker-list');
+  var filtered = ALL_TEAMS.filter(function(t){ return !q || t.toLowerCase().includes(q.toLowerCase()); });
+  list.innerHTML = '<button class="picker-opt clear" data-team="">— Limpiar —</button>' +
+    filtered.map(function(t){ return '<button class="picker-opt" data-team="'+t+'">'+(t===pickerCur?'✓ ':'')+t+'</button>'; }).join('');
 }
+function pickTeam(team){ if(pickerCb) pickerCb(team); closePicker(); }
 
-function pickTeam(team) {
-  if (pickerCallback) pickerCallback(team);
-  closePicker();
-}
-
-function closePicker(e) {
-  if (e && e.target !== document.getElementById('picker-overlay')) return;
-  document.getElementById('picker-overlay').classList.remove('open');
-  pickerCallback = null;
-}
-
-// ═══════════════════════════════════════════════════════
-//  BRACKET DIAGRAM RENDERER
-// ═══════════════════════════════════════════════════════
-
-function renderBracket(player, data, real, showScoring) {
-  const diag = document.getElementById('bracket-diagram');
+// ═══════════════════════════════════════════
+// BRACKET RENDERER
+// ═══════════════════════════════════════════
+function renderBracket(data, real, showScore){
+  var diag = document.getElementById('bracket-diagram');
   diag.innerHTML = '';
 
-  const phases = [
-    { key:'g32',  count:32, label:'32 clasificados\na 16avos', pts:[2,1] },
-    { key:'r16',  count:16, label:'16 ganadores\nde 16avos',   pts:[4,2] },
-    { key:'qf',   count:8,  label:'Cuartos\nde final',         pts:[8,4] },
-    { key:'sf',   count:4,  label:'Semi\nfinales',             pts:[16,8] },
+  var phases = [
+    {key:'g32', count:32, label:'32 clasificados\na 16avos', pts:'2/1', w:'100px'},
+    {key:'r16', count:16, label:'16 ganadores\nde 16avos',  pts:'4/2', w:'96px'},
+    {key:'qf',  count:8,  label:'Cuartos\nde final',        pts:'8/4', w:'92px'},
+    {key:'sf',  count:4,  label:'Semi\nfinales',            pts:'16/8',w:'88px'},
   ];
 
-  const realSets = {
+  var realSets = {
     g32: new Set((real.g32||[]).filter(Boolean)),
     r16: new Set((real.r16||[]).filter(Boolean)),
     qf:  new Set((real.qf||[]).filter(Boolean)),
-    sf:  new Set((real.sf||[]).filter(Boolean)),
+    sf:  new Set((real.sf||[]).filter(Boolean))
   };
 
-  function slotClass(phKey, idx, val) {
-    if (!showScoring || !val) return val ? 'filled' : '';
-    const realArr = real[phKey] || [];
-    const realVal = realArr[idx] || '';
-    const realSet = realSets[phKey];
-    if (!realVal && !realSet.size) return 'filled';
-    if (realVal && val === realVal) return 'exact';
-    if (realSet.has(val)) return 'partial';
-    if (realVal) return 'wrong';
+  function slotClass(phKey, idx, val){
+    if(!showScore || !val) return val ? 'filled' : '';
+    var rArr = real[phKey] || [];
+    var rVal = rArr[idx] || '';
+    var rSet = realSets[phKey];
+    if(!rVal && !rSet.size) return 'filled';
+    if(rVal && val === rVal) return 'exact';
+    if(rSet.has(val)) return 'partial';
+    if(rVal) return 'wrong';
     return 'filled';
   }
 
-  function makePhasCol(phaseInfo, groupSize) {
-    const ph = document.createElement('div');
-    ph.className = 'phase';
-    ph.style.width = phaseInfo.key === 'g32' ? '100px' : phaseInfo.key === 'r16' ? '96px' : phaseInfo.key === 'qf' ? '92px' : '88px';
+  phases.forEach(function(ph, pi){
+    var col = document.createElement('div');
+    col.className = 'phase';
+    col.style.width = ph.w;
 
-    const hdr = document.createElement('div');
+    var hdr = document.createElement('div');
     hdr.className = 'phase-header';
-    hdr.innerHTML = phaseInfo.label.replace('\n','<br>') + `<br><span style="color:var(--green);font-size:9px">×${phaseInfo.pts[0]} / ×${phaseInfo.pts[1]}</span>`;
-    ph.appendChild(hdr);
+    hdr.innerHTML = ph.label.replace('\n','<br>')+'<br><span style="color:var(--gr);font-size:9px">×'+ph.pts+'</span>';
+    col.appendChild(hdr);
 
-    const body = document.createElement('div');
+    var body = document.createElement('div');
     body.style.cssText = 'flex:1;display:flex;flex-direction:column;';
 
-    const numGroups = phaseInfo.count / groupSize;
-    for (let g = 0; g < numGroups; g++) {
-      const grp = document.createElement('div');
-      grp.className = 'match-group' + (phaseInfo.key === 'sf' ? ' no-line' : '');
+    var groupSize = 2;
+    var numGroups = ph.count / groupSize;
+    for(var g=0; g<numGroups; g++){
+      var grp = document.createElement('div');
+      grp.className = 'match-group' + (ph.key==='sf' ? ' no-line' : '');
       grp.style.flex = '1';
-
-      for (let s = 0; s < groupSize; s++) {
-        const idx = g * groupSize + s;
-        const val = (data[phaseInfo.key] || [])[idx] || '';
-        const cls = slotClass(phaseInfo.key, idx, val);
-
-        const slot = document.createElement('div');
+      for(var s=0; s<groupSize; s++){
+        var idx = g*groupSize + s;
+        var val = (data[ph.key]||[])[idx] || '';
+        var cls = slotClass(ph.key, idx, val);
+        var slot = document.createElement('div');
         slot.className = 'slot';
-
-        const btn = document.createElement('button');
-        btn.className = 'slot-input' + (cls ? ' ' + cls : '');
+        var btn = document.createElement('button');
+        btn.className = 'slot-btn' + (cls ? ' '+cls : '');
         btn.textContent = val || '·';
-        btn.title = `Slot ${idx+1}`;
-        btn.onclick = () => {
-          openPicker(`Slot ${idx+1} — ${phaseInfo.label.replace('\n',' ')}`, val, (team) => {
-            if (!currentData[phaseInfo.key]) currentData[phaseInfo.key] = Array(phaseInfo.count).fill('');
-            currentData[phaseInfo.key][idx] = team;
-            document.getElementById('save-status').textContent = '● Cambios sin guardar';
-            renderBracket(currentPlayer, currentData, realData, !!real.g32.filter(Boolean).length);
-          });
-        };
+        btn.title = 'Slot '+(idx+1);
+        (function(phKey, phCount, i){
+          btn.onclick = function(){
+            openPicker('Slot '+(i+1)+' — '+ph.label.replace('\n',' '), val, function(team){
+              if(!currentData[phKey]) currentData[phKey] = Array(phCount).fill('');
+              currentData[phKey][i] = team;
+              document.getElementById('save-status').textContent = '● Sin guardar';
+              renderBracket(currentData, realData, realData.g32.some(Boolean));
+            });
+          };
+        })(ph.key, ph.count, idx);
         slot.appendChild(btn);
         grp.appendChild(slot);
       }
       body.appendChild(grp);
     }
-    ph.appendChild(body);
-    return ph;
-  }
+    col.appendChild(body);
+    diag.appendChild(col);
 
-  function makeConnector(count, groupSize) {
-    const conn = document.createElement('div');
-    conn.className = 'connector';
-    const numGroups = count / groupSize;
-    for (let g = 0; g < numGroups; g++) {
-      const pair = document.createElement('div');
-      pair.className = 'conn-pair';
-      pair.style.flex = '1';
-      conn.appendChild(pair);
+    // Connector
+    if(pi < phases.length - 1){
+      var conn = document.createElement('div');
+      conn.className = 'connector';
+      var pairs = ph.count / groupSize;
+      for(var cp=0; cp<pairs; cp++){
+        var pair = document.createElement('div');
+        pair.className = 'conn-pair';
+        pair.style.flex = '1';
+        conn.appendChild(pair);
+      }
+      diag.appendChild(conn);
     }
-    return conn;
-  }
-
-  // g32 (groups of 2)
-  diag.appendChild(makePhasCol(phases[0], 2));
-  diag.appendChild(makeConnector(16, 1));
-  // r16 (groups of 2)
-  diag.appendChild(makePhasCol(phases[1], 2));
-  diag.appendChild(makeConnector(8, 1));
-  // qf (groups of 2)
-  diag.appendChild(makePhasCol(phases[2], 2));
-  diag.appendChild(makeConnector(4, 1));
-  // sf (groups of 2)
-  diag.appendChild(makePhasCol(phases[3], 2));
-
-  // Final podium
-  const pod = document.createElement('div');
-  pod.className = 'podium';
-
-  const podItems = [
-    { key:'c1', label:'🥇 Campeón', cls:'gold', ptsExact:64, ptsPartial:32, phKey:'final' },
-    { key:'c2', label:'🥈 Vicecampeón', cls:'silver', ptsExact:64, ptsPartial:32, phKey:'final' },
-    { key:'c3', label:'🥉 Tercer lugar', cls:'bronze', ptsExact:64, ptsPartial:32, phKey:'final' },
-    { key:'c4', label:'4° lugar', cls:'fourth', ptsExact:64, ptsPartial:32, phKey:'final' },
-  ];
-
-  // small connector before podium
-  const podConn = document.createElement('div');
-  podConn.style.cssText = 'width:12px;border-top:.5px solid var(--bd2);align-self:center;margin-top:40px;';
-  // Actually use a full connector column for semis→final
-  const finalConn = document.createElement('div');
-  finalConn.className = 'connector';
-  ['',''].forEach(() => {
-    const p = document.createElement('div');
-    p.className = 'conn-pair';
-    p.style.flex = '1';
-    finalConn.appendChild(p);
   });
-  diag.appendChild(finalConn);
 
-  const top4real = new Set(['c1','c2','c3','c4'].map(k => real.final[k]).filter(Boolean));
+  // Final connector + podium
+  var fc = document.createElement('div');
+  fc.className = 'connector';
+  for(var i=0;i<2;i++){ var p=document.createElement('div'); p.className='conn-pair'; p.style.flex='1'; fc.appendChild(p); }
+  diag.appendChild(fc);
 
-  podItems.forEach(pi => {
-    const val = data.final[pi.key] || '';
-    const realVal = real.final[pi.key] || '';
-    let podCls = '';
-    if (showScoring && val && top4real.size) {
-      if (realVal && val === realVal) podCls = ' exact';
-      else if (top4real.has(val)) podCls = ' partial';
-      else if (realVal) podCls = ' wrong';
-    }
-
-    const pslot = document.createElement('div');
-    pslot.className = 'podium-slot ' + pi.cls + podCls;
-    pslot.innerHTML = `<span class="podium-label">${pi.label}</span><div class="podium-team">${val || '—'}</div>`;
-    pslot.style.cursor = 'pointer';
-    pslot.onclick = () => {
-      openPicker(pi.label, val, (team) => {
-        currentData.final[pi.key] = team;
-        document.getElementById('save-status').textContent = '● Cambios sin guardar';
-        renderBracket(currentPlayer, currentData, realData, !!real.g32.filter(Boolean).length);
-      });
-    };
+  var pod = document.createElement('div');
+  pod.className = 'podium';
+  var top4 = new Set(['c1','c2','c3','c4'].map(function(k){ return real.final[k]; }).filter(Boolean));
+  var podDefs = [
+    {key:'c1',label:'🥇 Campeón',cls:'gold'},
+    {key:'c2',label:'🥈 Vicecampeón',cls:'silver'},
+    {key:'c3',label:'🥉 Tercer lugar',cls:'bronze'},
+    {key:'c4',label:'4° lugar',cls:''}
+  ];
+  podDefs.forEach(function(pd){
+    var val = data.final[pd.key] || '';
+    var pslot = document.createElement('div');
+    pslot.className = 'podium-slot ' + pd.cls;
+    pslot.innerHTML = '<span class="podium-label">'+pd.label+'</span><div class="podium-team">'+(val||'—')+'</div>';
+    (function(pk, pval){
+      pslot.onclick = function(){
+        openPicker(pd.label, pval, function(team){
+          currentData.final[pk] = team;
+          document.getElementById('save-status').textContent = '● Sin guardar';
+          renderBracket(currentData, realData, realData.g32.some(Boolean));
+        });
+      };
+    })(pd.key, val);
     pod.appendChild(pslot);
   });
-
   diag.appendChild(pod);
 }
 
-// ═══════════════════════════════════════════════════════
-//  PLAYER EDITOR
-// ═══════════════════════════════════════════════════════
-
-function loadPlayer(name) {
-  if (!name) {
+// ═══════════════════════════════════════════
+// PLAYER EDITOR
+// ═══════════════════════════════════════════
+function loadPlayer(name){
+  if(!name){
     document.getElementById('bracket-outer').style.display = 'none';
     document.getElementById('editor-savebar').style.display = 'none';
     document.getElementById('editor-empty').style.display = 'block';
@@ -609,236 +508,234 @@ function loadPlayer(name) {
     return;
   }
   currentPlayer = name;
-  currentData   = loadData(name);
-  const hasReal = realData.g32.some(Boolean);
-
-  document.getElementById('editor-empty').style.display    = 'none';
-  document.getElementById('bracket-outer').style.display   = 'block';
-  document.getElementById('editor-savebar').style.display  = 'flex';
-  document.getElementById('score-legend').style.display    = hasReal ? 'flex' : 'none';
-  document.getElementById('save-status').textContent       = 'Guardado';
-
-  const noticeEl = document.getElementById('editor-notice');
-  if (hasReal) {
-    noticeEl.style.display = 'block';
-    noticeEl.textContent   = '✓ Mostrando puntos en tiempo real según los resultados cargados.';
-  } else {
-    noticeEl.style.display = 'block';
-    noticeEl.textContent   = 'Completa el bracket de este participante. Los puntos se calcularán cuando cargues los resultados reales en la pestaña ⚽.';
-  }
-
-  renderBracket(name, currentData, realData, hasReal);
+  currentData = loadBracket(name);
+  var hasReal = realData.g32.some(Boolean);
+  document.getElementById('editor-empty').style.display = 'none';
+  document.getElementById('bracket-outer').style.display = 'block';
+  document.getElementById('editor-savebar').style.display = 'flex';
+  document.getElementById('score-legend').style.display = hasReal ? 'flex' : 'none';
+  document.getElementById('save-status').textContent = 'Guardado';
+  var notice = document.getElementById('editor-notice');
+  notice.style.display = 'block';
+  notice.textContent = hasReal
+    ? '✓ Mostrando puntos en tiempo real.'
+    : 'Completa el bracket. Los puntos se calculan cuando cargues los resultados reales.';
+  renderBracket(currentData, realData, hasReal);
 }
 
-function savePlayer() {
-  if (!currentPlayer) return;
-  saveData(currentPlayer, currentData);
+function savePlayer(){
+  if(!currentPlayer) return;
+  saveBracket(currentPlayer, currentData);
   document.getElementById('save-status').textContent = '✓ Guardado · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
   renderLB();
 }
 
-function clearPlayer() {
-  if (!currentPlayer) return;
-  if (!confirm('¿Limpiar todo el bracket de ' + currentPlayer + '?')) return;
+function clearPlayer(){
+  if(!currentPlayer) return;
+  if(!confirm('¿Limpiar bracket de '+currentPlayer+'?')) return;
   currentData = emptyBracket();
-  saveData(currentPlayer, currentData);
-  renderBracket(currentPlayer, currentData, realData, false);
-  document.getElementById('save-status').textContent = 'Limpiado';
+  saveBracket(currentPlayer, currentData);
+  renderBracket(currentData, realData, false);
   renderLB();
 }
 
-// ═══════════════════════════════════════════════════════
-//  RESULTADOS REALES
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// RESULTADOS REALES
+// ═══════════════════════════════════════════
+function makeRealSlot(label, val, onclick){
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'background:var(--card);border:.5px solid var(--bd);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;';
+  if(val) wrap.style.background = 'var(--gr-l)';
+  wrap.innerHTML = '<span style="font-size:10px;color:var(--t3);flex-shrink:0;width:36px">'+label+'</span><span style="font-size:13px;font-weight:600;color:'+(val?'var(--gr-d)':'var(--t3)')+';flex:1">'+(val||'— pendiente —')+'</span>';
+  wrap.onclick = onclick;
+  return wrap;
+}
 
-function renderRealInputs() {
-  const phases = [
-    { id:'real-g32a', key:'g32', start:0,  count:16, label:'Slot' },
-    { id:'real-g32b', key:'g32', start:16, count:16, label:'Slot' },
-    { id:'real-r16',  key:'r16', start:0,  count:16, label:'16avo' },
-    { id:'real-qf',   key:'qf',  start:0,  count:8,  label:'CF' },
-    { id:'real-sf',   key:'sf',  start:0,  count:4,  label:'SF' },
+function renderRealInputs(){
+  var phases = [
+    {id:'real-g32a', key:'g32', start:0,  count:16, lbl:'Slot'},
+    {id:'real-g32b', key:'g32', start:16, count:16, lbl:'Slot'},
+    {id:'real-r16',  key:'r16', start:0,  count:16, lbl:'16avo'},
+    {id:'real-qf',   key:'qf',  start:0,  count:8,  lbl:'CF'},
+    {id:'real-sf',   key:'sf',  start:0,  count:4,  lbl:'SF'},
   ];
-
-  phases.forEach(ph => {
-    const el = document.getElementById(ph.id);
+  phases.forEach(function(ph){
+    var el = document.getElementById(ph.id);
     el.innerHTML = '';
-    for (let i = 0; i < ph.count; i++) {
-      const idx = ph.start + i;
-      const val = (realData[ph.key] || [])[idx] || '';
-      const wrap = document.createElement('div');
-      wrap.style.cssText = 'background:var(--card);border:.5px solid var(--bd);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;';
-      if (val) wrap.style.background = 'var(--green-l)';
-      wrap.innerHTML = `<span style="font-size:10px;color:var(--t3);flex-shrink:0;width:28px">${ph.label} ${idx+1}</span><span style="font-size:13px;font-weight:600;color:${val?'var(--green-d)':'var(--t3)'};flex:1">${val||'— pendiente —'}</span>`;
-      wrap.onclick = () => {
-        openPicker(`${ph.label} ${idx+1}`, val, (team) => {
-          if (!realData[ph.key]) realData[ph.key] = Array(ph.start+ph.count).fill('');
-          realData[ph.key][idx] = team;
+    for(var i=0; i<ph.count; i++){
+      var idx = ph.start + i;
+      var val = (realData[ph.key]||[])[idx] || '';
+      (function(k, ix, v){
+        el.appendChild(makeRealSlot(ph.lbl+' '+(ix+1), v, function(){
+          openPicker(ph.lbl+' '+(ix+1), v, function(team){
+            if(!realData[k]) realData[k] = Array(32).fill('');
+            realData[k][ix] = team;
+            renderRealInputs();
+            document.getElementById('real-status').textContent = '● Sin guardar';
+          });
+        }));
+      })(ph.key, idx, val);
+    }
+  });
+
+  var finalEl = document.getElementById('real-final');
+  finalEl.innerHTML = '';
+  var fDefs = [{k:'c1',l:'🥇 Campeón'},{k:'c2',l:'🥈 Vicecampeón'},{k:'c3',l:'🥉 3° lugar'},{k:'c4',l:'4° lugar'}];
+  fDefs.forEach(function(fd){
+    var val = realData.final[fd.k] || '';
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'background:var(--card);border:.5px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;text-align:center;';
+    wrap.innerHTML = '<div style="font-size:11px;color:var(--t3);margin-bottom:4px">'+fd.l+'</div><div style="font-size:15px;font-weight:700;color:'+(val?'var(--gr-d)':'var(--t3)')+';">'+(val||'—')+'</div>';
+    (function(fk, fv){
+      wrap.onclick = function(){
+        openPicker(fd.l, fv, function(team){
+          realData.final[fk] = team;
           renderRealInputs();
           document.getElementById('real-status').textContent = '● Sin guardar';
         });
       };
-      el.appendChild(wrap);
-    }
-  });
-
-  // Final
-  const finalEl = document.getElementById('real-final');
-  const finalDefs = [
-    {key:'c1',label:'🥇 Campeón',cls:'gold'},{key:'c2',label:'🥈 Vicecampeón',cls:'silver'},
-    {key:'c3',label:'🥉 3° lugar',cls:'bronze'},{key:'c4',label:'4° lugar',cls:''}
-  ];
-  finalEl.innerHTML = '';
-  finalDefs.forEach(fd => {
-    const val = realData.final[fd.key] || '';
-    const wrap = document.createElement('div');
-    wrap.style.cssText = `background:var(--card);border:.5px solid var(--bd);border-radius:10px;padding:12px;cursor:pointer;text-align:center;`;
-    wrap.innerHTML = `<div style="font-size:11px;color:var(--t3);margin-bottom:4px">${fd.label}</div><div style="font-size:15px;font-weight:700;color:${val?'var(--green-d)':'var(--t3)'}">${val||'—'}</div>`;
-    wrap.onclick = () => {
-      openPicker(fd.label, val, (team) => {
-        realData.final[fd.key] = team;
-        renderRealInputs();
-        document.getElementById('real-status').textContent = '● Sin guardar';
-      });
-    };
+    })(fd.k, val);
     finalEl.appendChild(wrap);
   });
 }
 
-function saveReal() {
-  saveReal2(realData);
-  document.getElementById('real-status').textContent = '✓ Guardado · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+function saveReal(){
+  saveRealData(realData);
+  document.getElementById('real-status').textContent = '✓ Guardado · '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
   renderLB();
-  // refresh bracket if open
-  if (currentPlayer) loadPlayer(currentPlayer);
+  if(currentPlayer) loadPlayer(currentPlayer);
 }
 
-// ═══════════════════════════════════════════════════════
-//  SCORING ENGINE
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// SCORING
+// ═══════════════════════════════════════════
+function scorePlayer(name){
+  var d = loadBracket(name);
+  var r = realData;
+  var ph = [0,0,0,0,0];
 
-function scorePlayer(name) {
-  const d = loadData(name);
-  const r = realData;
-  let total = 0, ph = [0,0,0,0,0];
-
-  function phaseScore(dArr, rArr, exact, partial) {
-    let pts = 0;
-    const rSet = new Set(rArr.filter(Boolean));
-    dArr.forEach((pred, i) => {
-      const rVal = (rArr[i] || '');
-      if (!pred || !rVal) return;
-      if (pred === rVal) pts += exact;
-      else if (rSet.has(pred)) pts += partial;
+  function phScore(dArr, rArr, ex, pa){
+    var pts = 0;
+    var rSet = new Set(rArr.filter(Boolean));
+    (dArr||[]).forEach(function(pred, i){
+      if(!pred) return;
+      var rv = (rArr||[])[i] || '';
+      if(!rv) return;
+      if(pred === rv) pts += ex;
+      else if(rSet.has(pred)) pts += pa;
     });
     return pts;
   }
 
-  ph[0] = phaseScore(d.g32||[], r.g32||[], 2, 1);
-  ph[1] = phaseScore(d.r16||[], r.r16||[], 4, 2);
-  ph[2] = phaseScore(d.qf||[],  r.qf||[],  8, 4);
-  ph[3] = phaseScore(d.sf||[],  r.sf||[],  16, 8);
+  ph[0] = phScore(d.g32, r.g32, 2, 1);
+  ph[1] = phScore(d.r16, r.r16, 4, 2);
+  ph[2] = phScore(d.qf,  r.qf,  8, 4);
+  ph[3] = phScore(d.sf,  r.sf, 16, 8);
 
-  // Final
-  const top4 = new Set(['c1','c2','c3','c4'].map(k=>r.final[k]).filter(Boolean));
-  ['c1','c2','c3','c4'].forEach(pos => {
-    const pred = d.final[pos] || '', rVal = r.final[pos] || '';
-    if (!pred || !top4.size) return;
-    if (rVal && pred === rVal) ph[4] += 64;
-    else if (top4.has(pred)) ph[4] += 32;
+  var top4 = new Set(['c1','c2','c3','c4'].map(function(k){ return r.final[k]; }).filter(Boolean));
+  ['c1','c2','c3','c4'].forEach(function(pos){
+    var pred = d.final[pos] || '', rv = r.final[pos] || '';
+    if(!pred || !top4.size) return;
+    if(rv && pred === rv) ph[4] += 64;
+    else if(top4.has(pred)) ph[4] += 32;
   });
 
-  total = ph.reduce((a,b)=>a+b,0);
-  return { total, ph, champ: d.final.c1||'?', vice: d.final.c2||'?', g32: d.g32, final: d.final };
+  var total = ph.reduce(function(a,b){ return a+b; }, 0);
+  return { total:total, ph:ph, champ:d.final.c1||'?', vice:d.final.c2||'?' };
 }
 
-// ═══════════════════════════════════════════════════════
-//  LEADERBOARD
-// ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════
+// LEADERBOARD
+// ═══════════════════════════════════════════
+function renderLB(){
+  var MAX = 32*2 + 16*4 + 8*8 + 4*16 + 4*64;
+  var scores = PLAYERS.map(function(p){ return Object.assign({name:p}, scorePlayer(p)); });
+  scores.sort(function(a,b){ return b.total - a.total; });
+  var hasReal = realData.g32.some(Boolean);
 
-function renderLB() {
-  const MAX = 32*2 + 16*4 + 8*8 + 4*16 + 4*64; // 512
-  const scores = PLAYERS.map(p => ({ name:p, ...scorePlayer(p) }))
-    .sort((a,b) => b.total - a.total);
-
-  const hasAnyData = scores.some(s => s.total > 0 || (s.g32 && s.g32.some(Boolean)));
-  const hasReal    = realData.g32.some(Boolean);
-
-  document.getElementById('lb-list').innerHTML = scores.map((s, i) => {
-    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
-    const cls   = i===0?'p1':i===1?'p2':i===2?'p3':'';
-    const pct   = Math.round(s.total / MAX * 100);
-    const filled = s.g32 ? s.g32.filter(Boolean).length : 0;
-    const sub   = hasReal
-      ? `🏆 ${s.champ} · 🥈 ${s.vice}`
-      : (filled > 0 ? `${filled}/32 slots llenados · 🏆 ${s.champ}` : 'Bracket vacío — ve a ✏️ Editar bracket');
-    return `<div class="lc ${cls}" onclick="goEditPlayer('${s.name}')">
-      <div class="rn">${medal}</div>
-      <div class="li">
-        <div class="ln">${s.name}</div>
-        <div class="lsub">${sub}</div>
-        ${hasReal ? `<div class="pb"><div class="pf" style="width:${pct}%"></div></div>` : ''}
-      </div>
-      <div class="lpts">
-        <div class="lnum">${hasReal ? s.total : (filled>0?'✓':'—')}</div>
-        <div class="llbl">${hasReal?'pts':''}</div>
-      </div>
-    </div>`;
+  document.getElementById('lb-list').innerHTML = scores.map(function(s, i){
+    var medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+    var cls = i===0?'p1':i===1?'p2':i===2?'p3':'';
+    var pct = Math.round(s.total/MAX*100);
+    var sub = hasReal ? ('🏆 '+s.champ+' · 🥈 '+s.vice) : ('🏆 '+s.champ);
+    return '<div class="lc '+cls+'" onclick="goEdit(\''+s.name.replace(/'/g,"\\'")+'\')">'
+      +'<div class="rn">'+medal+'</div>'
+      +'<div class="li"><div class="ln">'+s.name+'</div>'
+      +'<div class="lsub">'+sub+'</div>'
+      +(hasReal?'<div class="pb"><div class="pf" style="width:'+pct+'%"></div></div>':'')
+      +'</div>'
+      +'<div class="lpts"><div class="lnum">'+(hasReal?s.total:'—')+'</div><div class="llbl">'+(hasReal?'pts':'')+'</div></div>'
+      +'</div>';
   }).join('');
 }
 
-function goEditPlayer(name) {
+function goEdit(name){
   showTab('editor', document.querySelectorAll('.tab')[1]);
   document.getElementById('player-select').value = name;
   loadPlayer(name);
 }
 
-// ═══════════════════════════════════════════════════════
-//  TABS
-// ═══════════════════════════════════════════════════════
-
-function showTab(id, el) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-  if (el) el.classList.add('on'); else document.querySelectorAll('.tab')[['leaderboard','editor','real','rules'].indexOf(id)].classList.add('on');
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+function showTab(id, el){
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+  if(el) el.classList.add('on');
   document.getElementById('panel-'+id).classList.add('on');
 }
 
-// URL del JSON en GitHub (nombre fijo: datos.json)
-const DATOS_URL = 'https://raw.githubusercontent.com/juliorudguli-2026/polla2026/main/datos.json';
+function renderAll(){ renderLB(); if(currentPlayer) loadPlayer(currentPlayer); }
 
-async function cargarDesdeGithub() {
-  try {
-    const res = await fetch(DATOS_URL + '?t=' + Date.now());
-    if (!res.ok) return;
-    const data = await res.json();
-    if (data.brackets) {
-      PLAYERS.forEach(p => { if (data.brackets[p]) saveData(p, data.brackets[p]); });
-    }
-    if (data.resultados_reales) {
-      realData = data.resultados_reales;
-      saveReal2(realData);
-    }
-    renderAll();
-    renderRealInputs();
-    if (currentPlayer) loadPlayer(currentPlayer);
-  } catch(e) {
-    console.log('Sin datos en GitHub, usando localStorage:', e.message);
-  }
+// ═══════════════════════════════════════════
+// CARGA AUTOMÁTICA DESDE GITHUB
+// ═══════════════════════════════════════════
+var DATOS_URL = 'https://raw.githubusercontent.com/juliorudguli-2026/polla2026/main/datos.json';
+
+function cargarDesdeGithub(){
+  fetch(DATOS_URL + '?t=' + Date.now())
+    .then(function(r){ if(!r.ok) throw new Error('no file'); return r.json(); })
+    .then(function(data){
+      if(data.brackets) PLAYERS.forEach(function(p){ if(data.brackets[p]) saveBracket(p, data.brackets[p]); });
+      if(data.resultados_reales){ realData = data.resultados_reales; saveRealData(realData); }
+      renderAll();
+      renderRealInputs();
+    })
+    .catch(function(){ /* sin datos en GitHub, usar localStorage */ });
 }
 
+// ═══════════════════════════════════════════
+// EVENTOS
+// ═══════════════════════════════════════════
+document.getElementById('btn-export').addEventListener('click', exportarDatos);
+document.getElementById('btn-import').addEventListener('click', function(){ document.getElementById('import-modal').classList.add('open'); });
+document.getElementById('import-cancel').addEventListener('click', function(){ document.getElementById('import-modal').classList.remove('open'); });
+document.getElementById('import-ok').addEventListener('click', importarDatos);
+document.getElementById('picker-close').addEventListener('click', closePicker);
+document.getElementById('picker-overlay').addEventListener('click', function(e){ if(e.target===this) closePicker(); });
+document.getElementById('picker-search').addEventListener('input', function(){ filterPicker(this.value); });
+document.getElementById('picker-list').addEventListener('click', function(e){
+  var btn = e.target.closest('button[data-team]');
+  if(btn) pickTeam(btn.dataset.team);
+});
+document.getElementById('import-file').addEventListener('change', function(){
+  if(!this.files[0]) return;
+  var fr = new FileReader();
+  fr.onload = function(e){ document.getElementById('import-text').value = e.target.result; };
+  fr.readAsText(this.files[0]);
+});
+
+// ═══════════════════════════════════════════
 // INIT
-const sel = document.getElementById('player-select');
-PLAYERS.forEach(p => {
-  const opt = document.createElement('option');
+// ═══════════════════════════════════════════
+PLAYERS.forEach(function(p){
+  var opt = document.createElement('option');
   opt.value = opt.textContent = p;
-  sel.appendChild(opt);
+  document.getElementById('player-select').appendChild(opt);
 });
 
 renderRealInputs();
 renderLB();
-
-// Cargar datos desde GitHub automaticamente
 cargarDesdeGithub();
 </script>
 </body>
