@@ -196,7 +196,9 @@ textarea{width:100%;height:140px;padding:10px;border-radius:8px;border:.5px soli
   <div id="real-qf" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
   <div class="sec">4 semifinalistas</div>
   <div id="real-sf" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
-  <div class="sec">Final</div>
+  <div class="sec">Finalistas · 4 equipos · exacto=32 pts</div>
+  <div id="real-fn" style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px"></div>
+  <div class="sec">Final · exacto=64 pts</div>
   <div id="real-final" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"></div>
   <div class="save-bar">
     <span id="real-status">Sin guardar</span>
@@ -220,18 +222,22 @@ textarea{width:100%;height:140px;padding:10px;border-radius:8px;border:.5px soli
     <div class="rr"><span><b>Fase 4 — 4 semifinalistas</b></span></div>
     <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+16 pts</span></div>
     <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+8 pts</span></div>
-    <div class="rr"><span><b>Fase 5 — Final (Campeón, Vice, 3°, 4°)</b></span></div>
+    <div class="rr"><span><b>Fase 5 — 4 finalistas (Final + 3er lugar)</b></span></div>
+    <div class="rr" style="padding-left:12px"><span>Slot exacto</span><span class="rx">+32 pts</span></div>
+    <div class="rr" style="padding-left:12px"><span>Pasó pero otro slot</span><span class="rp">+16 pts</span></div>
+    <div class="rr"><span><b>Fase 6 — Posiciones finales (Campeón, Vice, 3°, 4°)</b></span></div>
     <div class="rr" style="padding-left:12px"><span>Posición exacta</span><span class="rx">+64 pts</span></div>
     <div class="rr" style="padding-left:12px"><span>Entre top 4, otra posición</span><span class="rp">+32 pts</span></div>
   </div>
   <div class="rc">
-    <div class="rh">Máximo: 512 pts</div>
+    <div class="rh">Máximo: 640 pts</div>
     <div class="rr"><span>Fase 1: 32×2</span><span class="rx">64 pts</span></div>
     <div class="rr"><span>Fase 2: 16×4</span><span class="rx">64 pts</span></div>
     <div class="rr"><span>Fase 3: 8×8</span><span class="rx">64 pts</span></div>
     <div class="rr"><span>Fase 4: 4×16</span><span class="rx">64 pts</span></div>
-    <div class="rr"><span>Fase 5: 4×64</span><span class="rx">256 pts</span></div>
-    <div class="rr"><b>Total</b><span class="rx" style="font-size:16px">512 pts</span></div>
+    <div class="rr"><span>Fase 5: 4×32</span><span class="rx">128 pts</span></div>
+    <div class="rr"><span>Fase 6: 4×64</span><span class="rx">256 pts</span></div>
+    <div class="rr"><b>Total</b><span class="rx" style="font-size:16px">640 pts</span></div>
   </div>
 </div>
 
@@ -293,10 +299,10 @@ function pKey(p){ return 'bracket_' + p.replace(/\s/g,'_'); }
 function rKey(){ return 'real_results'; }
 
 function emptyBracket(){
-  return { g32:Array(32).fill(''), r16:Array(16).fill(''), qf:Array(8).fill(''), sf:Array(4).fill(''), final:{c1:'',c2:'',c3:'',c4:''} };
+  return { g32:Array(32).fill(''), r16:Array(16).fill(''), qf:Array(8).fill(''), sf:Array(4).fill(''), fn:Array(4).fill(''), final:{c1:'',c2:'',c3:'',c4:''} };
 }
 function emptyReal(){
-  return { g32:Array(32).fill(''), r16:Array(16).fill(''), qf:Array(8).fill(''), sf:Array(4).fill(''), final:{c1:'',c2:'',c3:'',c4:''} };
+  return { g32:Array(32).fill(''), r16:Array(16).fill(''), qf:Array(8).fill(''), sf:Array(4).fill(''), fn:Array(4).fill(''), final:{c1:'',c2:'',c3:'',c4:''} };
 }
 
 function loadBracket(p){ try{ return JSON.parse(localStorage.getItem(pKey(p))) || emptyBracket(); }catch(e){ return emptyBracket(); } }
@@ -377,13 +383,15 @@ function renderBracket(data, real, showScore){
     {key:'r16', count:16, label:'16 ganadores\nde 16avos',  pts:'4/2', w:'96px'},
     {key:'qf',  count:8,  label:'Cuartos\nde final',        pts:'8/4', w:'92px'},
     {key:'sf',  count:4,  label:'Semi\nfinales',            pts:'16/8',w:'88px'},
+    {key:'fn',  count:4,  label:'Final y\n3er lugar',       pts:'32/16',w:'88px'},
   ];
 
   var realSets = {
     g32: new Set((real.g32||[]).filter(Boolean)),
     r16: new Set((real.r16||[]).filter(Boolean)),
     qf:  new Set((real.qf||[]).filter(Boolean)),
-    sf:  new Set((real.sf||[]).filter(Boolean))
+    sf:  new Set((real.sf||[]).filter(Boolean)),
+    fn:  new Set((real.fn||[]).filter(Boolean))
   };
 
   function slotClass(phKey, idx, val){
@@ -415,7 +423,7 @@ function renderBracket(data, real, showScore){
     var numGroups = ph.count / groupSize;
     for(var g=0; g<numGroups; g++){
       var grp = document.createElement('div');
-      grp.className = 'match-group' + (ph.key==='sf' ? ' no-line' : '');
+      grp.className = 'match-group' + (ph.key==='fn' ? ' no-line' : '');
       grp.style.flex = '1';
       for(var s=0; s<groupSize; s++){
         var idx = g*groupSize + s;
@@ -578,6 +586,24 @@ function renderRealInputs(){
     }
   });
 
+  // Fase fn - 4 finalistas
+  var fnEl = document.getElementById('real-fn');
+  if(fnEl){
+    fnEl.innerHTML = '';
+    for(var fi=0; fi<4; fi++){
+      var fnv = (realData.fn||[])[fi] || '';
+      (function(fix, fval){
+        fnEl.appendChild(makeRealSlot('Final '+(fix+1), fval, function(){
+          openPicker('Finalista '+(fix+1), fval, function(team){
+            if(!realData.fn) realData.fn = Array(4).fill('');
+            realData.fn[fix] = team;
+            renderRealInputs();
+            document.getElementById('real-status').textContent = 'Sin guardar';
+          });
+        }));
+      })(fi, fnv);
+    }
+  }
   var finalEl = document.getElementById('real-final');
   finalEl.innerHTML = '';
   var fDefs = [{k:'c1',l:'🥇 Campeón'},{k:'c2',l:'🥈 Vicecampeón'},{k:'c3',l:'🥉 3° lugar'},{k:'c4',l:'4° lugar'}];
@@ -612,7 +638,7 @@ function saveReal(){
 function scorePlayer(name){
   var d = loadBracket(name);
   var r = realData;
-  var ph = [0,0,0,0,0];
+  var ph = [0,0,0,0,0,0];
 
   function phScore(dArr, rArr, ex, pa){
     var pts = 0;
@@ -631,13 +657,14 @@ function scorePlayer(name){
   ph[1] = phScore(d.r16, r.r16, 4, 2);
   ph[2] = phScore(d.qf,  r.qf,  8, 4);
   ph[3] = phScore(d.sf,  r.sf, 16, 8);
+  ph[4] = phScore(d.fn||[], r.fn||[], 32, 16);
 
   var top4 = new Set(['c1','c2','c3','c4'].map(function(k){ return r.final[k]; }).filter(Boolean));
   ['c1','c2','c3','c4'].forEach(function(pos){
     var pred = d.final[pos] || '', rv = r.final[pos] || '';
     if(!pred || !top4.size) return;
-    if(rv && pred === rv) ph[4] += 64;
-    else if(top4.has(pred)) ph[4] += 32;
+    if(rv && pred === rv) ph[5] += 64;
+    else if(top4.has(pred)) ph[5] += 32;
   });
 
   var total = ph.reduce(function(a,b){ return a+b; }, 0);
@@ -648,7 +675,7 @@ function scorePlayer(name){
 // LEADERBOARD
 // ═══════════════════════════════════════════
 function renderLB(){
-  var MAX = 32*2 + 16*4 + 8*8 + 4*16 + 4*64;
+  var MAX = 32*2 + 16*4 + 8*8 + 4*16 + 4*32 + 4*64;
   var scores = PLAYERS.map(function(p){ return Object.assign({name:p}, scorePlayer(p)); });
   scores.sort(function(a,b){ return b.total - a.total; });
   var hasReal = realData.g32.some(Boolean);
