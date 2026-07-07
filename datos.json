@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fecha": "2026-07-05T09:54:04.895Z",
+  "fecha": "2026-07-07T23:22:18.969Z",
   "resultados_reales": {
     "g32": [
       "ALEMANIA",
@@ -57,12 +57,12 @@
     "qf": [
       "FRANCIA",
       "MARRUECOS",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
+      "ESPAÑA",
+      "BELGICA",
+      "NORUEGA",
+      "INGLATERRA",
+      "ARGENTINA",
+      "SUIZA"
     ],
     "sf": [
       "",
