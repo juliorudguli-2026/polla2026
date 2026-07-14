@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fecha": "2026-07-07T23:22:18.969Z",
+  "fecha": "2026-07-14T20:56:33.316Z",
   "resultados_reales": {
     "g32": [
       "ALEMANIA",
@@ -65,17 +65,23 @@
       "SUIZA"
     ],
     "sf": [
-      "",
-      "",
-      "",
-      ""
+      "FRANCIA",
+      "ESPAÑA",
+      "INGLATERRA",
+      "ARGENTINA"
     ],
     "final": {
       "c1": "",
       "c2": "",
       "c3": "",
       "c4": ""
-    }
+    },
+    "fn": [
+      "ESPAÑA",
+      "",
+      "FRANCIA",
+      ""
+    ]
   },
   "brackets": {
     "Franklin Navia Santos": {
