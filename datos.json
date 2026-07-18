@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "fecha": "2026-07-14T20:56:33.316Z",
+  "fecha": "2026-07-18T22:52:48.354Z",
   "resultados_reales": {
     "g32": [
       "ALEMANIA",
@@ -73,14 +73,14 @@
     "final": {
       "c1": "",
       "c2": "",
-      "c3": "",
-      "c4": ""
+      "c3": "INGLATERRA",
+      "c4": "FRANCIA"
     },
     "fn": [
       "ESPAÑA",
-      "",
+      "ARGENTINA",
       "FRANCIA",
-      ""
+      "INGLATERRA"
     ]
   },
   "brackets": {
